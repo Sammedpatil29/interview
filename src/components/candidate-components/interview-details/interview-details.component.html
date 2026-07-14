@@ -1,0 +1,157 @@
+<div class="container-fluid p-4">
+  @if(interviewDetails){
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div class="d-flex align-items-baseline gap-3">
+        <h2 class="mb-0">Interview Details</h2>
+        <span class="badge rounded-pill fs-6" [ngClass]="{
+          'bg-warning-subtle text-warning-emphasis': interviewDetails.status === 'Pending',
+          'bg-success-subtle text-success-emphasis': interviewDetails.status === 'Confirmed',
+          'bg-info-subtle text-info-emphasis': interviewDetails.status === 'Completed' || interviewDetails.payment === 'paid'
+        }">{{interviewDetails.status}}</span>
+    </div>
+    <div class="text-success fw-bold fs-4">
+                +{{interviewDetails.interviewerShare}}
+            </div>
+</div>
+
+    <div class="row g-4">
+      <!-- Left Column -->
+      <div class="col-lg-8">
+        <!-- Professional Details -->
+        <div class="card shadow-sm border-0 mb-4">
+          <div class="card-header bg-transparent fw-bold">Professional Details</div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <p><strong class="fw-medium">Interview Focus:</strong> <span class="text-capitalize">{{interviewDetails.type}}</span></p>
+                <p class="mb-md-0"><strong class="fw-medium">Experience Level:</strong> <span class="text-capitalize">{{interviewDetails.experienceLevel}}</span></p>
+              </div>
+              <div class="col-md-6">
+                <strong class="fw-medium d-block mb-2">Skills:</strong>
+                <div class="d-flex flex-wrap gap-2">
+                  @for(skill of interviewDetails.skills; track skill){
+                    <span class="badge bg-light text-dark fw-normal border">{{skill}}</span>
+                  }
+                </div>
+              </div>
+            </div>
+            @if(interviewDetails.resume?.name){
+              <hr class="my-3">
+              <p class="mb-0"><strong class="fw-medium">Resume:</strong> <a href="#">{{interviewDetails.resume.name}}</a></p>
+            }
+          </div>
+        </div>
+
+        <!-- Preferred Slots -->
+        <div class="card shadow-sm border-0 mb-4">
+          <div class="card-header bg-transparent fw-bold d-flex justify-content-between align-items-center">
+            <span>Your Preferred Slots</span>
+            <button class="btn btn-sm btn-outline-primary">Schedule</button>
+          </div>
+          <div class="card-body">
+            <div class="d-flex flex-wrap gap-3">
+              @for(key of objectKeys(interviewDetails.slots); track key){
+                @if(interviewDetails.slots[key].date && interviewDetails.slots[key].time){
+                  <div class="text-center bg-light border rounded p-2 slot-card">
+                    <div class="fs-5 fw-bold lh-1">{{interviewDetails.slots[key].date | date:'d'}}</div>
+                    <div class="small text-muted text-uppercase fw-semibold">{{interviewDetails.slots[key].date | date:'MMM'}}</div>
+                    <div class="small bg-white border rounded px-1 mt-1">{{interviewDetails.slots[key].time}}</div>
+                  </div>
+                }
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Interview Timeline -->
+        <div class="card shadow-sm border-0 mb-4">
+          <div class="card-header bg-transparent fw-bold">Interview Timeline</div>
+          <div class="card-body">
+            <ul class="list-unstyled mb-0">
+              @for(event of interviewDetails.timeline; track $index; let isLast = $last){
+                <li class="d-flex gap-3">
+                  <div class="d-flex flex-column align-items-center">
+                    <div class="timeline-dot"></div>
+                    @if(!isLast){
+                      <div class="flex-grow-1 w-px bg-secondary-subtle"></div>
+                    }
+                  </div>
+                  <div class="pb-4">
+                    <h6 class="mb-0 fw-bold">{{event.status | titlecase}}</h6>
+                    <p class="small text-muted mb-1">{{event.date | date:'medium'}}</p>
+                    <p class="mb-0">{{event.comment}}</p>
+                  </div>
+                </li>
+              }
+            </ul>
+          </div>
+        </div>
+
+        <!-- Feedback -->
+        @if(interviewDetails.feedback){
+          <div class="card shadow-sm border-0">
+            <div class="card-header bg-transparent fw-bold d-flex justify-content-between align-items-center">
+              <span>Interviewer Feedback</span>
+              <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-outline-secondary">Detailed View</button>
+                <button class="btn btn-sm btn-outline-primary">Add Feedback</button>
+              </div>
+            </div>
+            <div class="card-body">
+              <p class="text-muted">{{interviewDetails.feedback}}</p>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Right Column -->
+      <div class="col-lg-4">
+        <!-- Personal Details -->
+        <div class="card shadow-sm border-0 mb-4">
+          <div class="card-header bg-transparent fw-bold">Personal Information</div>
+          <div class="card-body">
+            <p><strong class="fw-medium">Name:</strong> {{interviewDetails.candidateName}}</p>
+            <p><strong class="fw-medium">Email:</strong> {{interviewDetails.candidateEmail}}</p>
+            <p class="mb-0"><strong class="fw-medium">Mobile:</strong> {{interviewDetails.mobileNumber}}</p>
+          </div>
+        </div>
+
+        <!-- Assigned To -->
+        <div class="card shadow-sm border-0 mb-4">
+          <div class="card-header bg-transparent fw-bold d-flex justify-content-between align-items-center">
+            <span>Assigned To</span>
+            <button class="btn btn-sm btn-outline-primary">Assign Interviewer</button>
+          </div>
+          <div class="card-body">
+            <p class="mb-2"><strong class="fw-medium">HR Contact:</strong>
+              <span class="text-muted">{{interviewDetails.hr.name}}</span>
+            </p>
+            @if(interviewDetails.interviewer){
+              <p class="mb-0"><strong class="fw-medium">Interviewer:</strong>
+                <span class="text-muted">{{interviewDetails.interviewer?.name}} - {{interviewDetails?.interviewer?.exp}}</span>
+              </p>
+            }
+          </div>
+        </div>
+
+        <!-- Scheduled Time -->
+        @if(interviewDetails.schedule){
+          <div class="card shadow-sm border-0 bg-primary-subtle text-primary-emphasis">
+            <div class="card-header bg-transparent fw-bold">Interview Scheduled</div>
+            <div class="card-body text-center">
+              <h5 class="mb-1">{{interviewDetails.schedule.date | date: 'fullDate'}}</h5>
+              <p class="mb-3">{{interviewDetails.schedule.time}}</p>
+              <div class="d-flex justify-content-center gap-2">
+                <a href="{{interviewDetails.meetingUrl}}" target="_blank" class="btn btn-primary">Join Interview</a>
+                <button class="btn btn-outline-secondary">Reschedule</button>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  } @else {
+    <app-no-data></app-no-data>
+  }
+</div>

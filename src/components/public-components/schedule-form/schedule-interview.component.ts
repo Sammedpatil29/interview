@@ -105,8 +105,18 @@ export class ScheduleInterviewComponent implements OnInit {
   }
 
   scheduleInterview() {
-    const finalFormValue = { ...this.personalDetailsForm.value, ...this.skillsForm.value, ...this.slotsForm.value };
-    console.log('Scheduling interview with details:', finalFormValue);
+    const personalDetails = this.personalDetailsForm.value;
+    const skillsDetails = this.skillsForm.value;
+    const slotsDetails = this.slotsForm.value;
+
+    const payload = {
+      ...personalDetails,
+      ...skillsDetails,
+      slots: slotsDetails
+      // The other properties like schedule, hr, interviewer, payment, etc.
+      // will likely be added by your backend service upon processing.
+    };
+    console.log('Scheduling interview with details:', payload);
     // Here you would typically call a service to save the interview details
   }
 
