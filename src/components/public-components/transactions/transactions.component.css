@@ -1,0 +1,41 @@
+.page-title{
+    font-size:30px;
+    font-weight:700;
+    color:#222;
+}
+.page-subtitle{
+    color:#6b7280;
+}
+
+.dashboard-card {
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.card-icon-bg {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 80px;
+    height: 80px;
+    width: 80px;
+    opacity: 0.15;
+    transform: rotate(-15deg);
+}
+
+.gradient-success {
+    background: linear-gradient(45deg, #198754, #20c997);
+}
+
+.gradient-danger {
+    background: linear-gradient(45deg, #dc3545, #fd7e14);
+}
+
+.gradient-warning {
+    background: linear-gradient(45deg, #ffc107, #fd7e14);
+}

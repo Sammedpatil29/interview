@@ -1,16 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { NoDataComponent } from '../../public-components/no-data/no-data.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { InterviewDetailsComponent } from "../interview-details/interview-details.component";
 
 @Component({
   selector: 'app-interviews',
   standalone: true,
-  imports: [CommonModule, MatIconModule, NoDataComponent],
+  imports: [CommonModule, MatIconModule, NoDataComponent, InterviewDetailsComponent],
   templateUrl: './interviews.component.html',
   styleUrl: './interviews.component.css'
 })
-export class InterviewsComponent {
+export class InterviewsComponent implements OnInit{
+  id:any;
   interviews = [
     {
       id: 1,
@@ -38,4 +41,21 @@ export class InterviewsComponent {
       ]
     }
   ];
+
+  constructor(private route: ActivatedRoute, private router: Router){}
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.id = params['id'];
+    });
+  }
+
+  viewDetails(id:any){
+    this.router.navigate([], {
+      queryParams: {
+        id: id
+      },
+      queryParamsHandling: 'merge' // 'merge' keeps existing query params, 'preserve' keeps old ones completely, default replaces them
+    });
+  }
 }

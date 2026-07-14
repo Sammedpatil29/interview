@@ -1,0 +1,50 @@
+{
+    "candidateName": "Sammed ",
+    "candidateEmail": "sammed.patil29@gmail.com",
+    "mobileNumber": "9591420068",
+    "experienceLevel": "fresher",
+    "type": "front",
+    "skills": [
+        "Angular"
+    ],
+    "resume": null,
+    "slots": {
+      "slot1": {
+        "date": "2026-07-14T18:30:00.000Z",
+        "time": "10:00"
+    },
+    "slot2": {
+        "date": "2026-07-14T18:30:00.000Z",
+        "time": "03:00"
+    },
+    "slot3": {
+        "date": "2026-07-14T18:30:00.000Z",
+        "time": "11:00"
+    }
+    },
+    "schedule":{
+      "date": "2026-07-14T18:30:00.000Z",
+      "time": "11:00"
+    },
+    "hr": {
+        "id": 1,
+        "name": "random name"
+    },
+    "interviewer": {
+        "id": 1,
+        "name": "random name",
+        "role": "Full Stack developer",
+        "exp": "6 years"
+    },
+    "payment": "paid",
+    "amount": "1200",
+    "interviewerShare": "350",
+    "timeline": [
+        {
+            "status": "paid",
+            "date": "2026-07-14T18:30:00.000Z",
+            "comment": "user just paid"
+        }
+    ],
+    "meetingUrl": "https://meet.google.com"
+}

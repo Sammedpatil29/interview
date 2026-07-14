@@ -1,1 +1,51 @@
-<p>profile works!</p>
+<div class="container-fluid p-4">
+  <!-- Profile Header -->
+  <div class="card shadow-sm border-0 profile-header rounded-3 mb-4">
+    <div class="card-body p-4 d-flex flex-column flex-md-row align-items-center gap-4">
+      <img [src]="user.avatar" class="rounded-circle profile-avatar" alt="Profile Picture">
+      <div>
+        <h2 class="mb-0 fw-bold">{{user.name}}</h2>
+        <p class="mb-0 text-white-50">{{user.email}}</p>
+      </div>
+      <div class="ms-md-auto">
+        <button class="btn btn-light">Edit Profile</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-6">
+      <!-- Personal Information -->
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-header">Personal Information</div>
+        <div class="card-body">
+          <p><strong>Email:</strong> {{user.email}}</p>
+          <p class="mb-0"><strong>Mobile Number:</strong> {{user.mobileNumber}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <!-- Professional Information -->
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-header">Professional Information</div>
+        <div class="card-body">
+          <p><strong>Experience Level:</strong> <span class="text-capitalize">{{user.experienceLevel}}</span></p>
+          <div class="mb-3">
+            <strong class="d-block mb-2">Skills:</strong>
+            <div class="d-flex flex-wrap gap-2">
+              @for(skill of user.skills; track skill){
+                <span class="badge bg-primary-subtle text-primary-emphasis fw-normal">{{skill}}</span>
+              }
+            </div>
+          </div>
+          @if(user.resume?.name){
+            <p class="mb-0">
+              <strong>Resume:</strong>
+              <a href="#" class="ms-2">{{user.resume.name}} <mat-icon style="font-size: 16px; vertical-align: text-bottom;">download</mat-icon></a>
+            </p>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

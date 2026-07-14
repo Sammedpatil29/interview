@@ -1,0 +1,20 @@
+.card-header {
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+}
+
+.slot-card {
+    transition: all 0.2s ease-in-out;
+}
+
+.slot-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--bs-primary) !important;
+}
+
+.timeline-dot {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+    margin-top: 6px;
+}
