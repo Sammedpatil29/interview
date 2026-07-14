@@ -1,1 +1,55 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+    --primary: #5e17eb
+
+    --mdc-dialog-container-shape: 8px; /* Adjust radius here */
+
+  /* 1. Change the Border Radius */
+  --mdc-outlined-text-field-container-shape: 12px;
+
+  /* 2. Change Border Colors (Idle) */
+  --mdc-outlined-text-field-outline-color: rgba(0, 0, 0, 0.12);
+  
+  /* 3. Change Border & Label Colors (Focus) */
+  --mdc-outlined-text-field-focus-outline-color: #000000; /* Your Primary Color */
+  --mdc-outlined-text-field-focus-label-text-color: #010101;
+
+  /* 4. Adjust Padding/Density (Optional) */
+  --mat-form-field-container-height: 56px;
+  .mat-mdc-form-field-subscript-wrapper, .mat-mdc-form-field-bottom-align::before {
+    display: none;
+  }
+}/* You can add global styles to this file, and also import other style files */
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+html, body { height: 100%; }
+
+.cdk-overlay-backdrop-showing {
+  backdrop-filter: blur(4px); /* Adjust the blur intensity here */
+  background-color: rgba(0, 0, 0, 0.3) !important; /* Optional: Make the dark tint lighter */
+}
+
+.btn {
+  /* --bs-btn-border-radius: 3px 13px !important; */
+  background: #5e17eb !important;
+  color: white;
+  padding: 10px;
+  min-width: 100px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.note {
+  color: rgb(243, 186, 0);
+  border: 1px solid rgb(218, 167, 0);
+  border-radius: 10px;
+  margin: 0;
+  padding: 5px;
+  font-size: 13px;
+  margin-bottom: 15px
+}
+

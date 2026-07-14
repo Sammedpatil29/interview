@@ -1,0 +1,54 @@
+.page-title{
+    font-size:30px;
+    font-weight:700;
+    color:#222;
+}
+.page-subtitle{
+    color:#6b7280;
+}
+
+.card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
+}
+
+.card-header, .card-footer {
+    background-color: #fff;
+    border-color: var(--bs-border-color-translucent);
+}
+
+.slot-card {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    text-align: center;
+    padding: 8px;
+    min-width: 70px;
+}
+
+.slot-day {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.slot-month {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #6c757d;
+}
+
+.slot-time {
+    font-size: 10px;
+    font-weight: 500;
+    margin-top: 5px;
+    background: white;
+    border-radius: 4px;
+    padding: 2px 4px;
+    border: 1px solid #e9ecef;
+}

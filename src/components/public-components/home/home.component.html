@@ -1,0 +1,53 @@
+<header class="top-bar">
+  <div class="top-bar-container">
+    <div class="logo">
+      <a routerLink="/">
+        <!-- You can use an img tag for your logo -->
+        <img src="/assets/logo.png" class="img-fluid" alt="App Logo">
+        <!-- <span class="logo-text">demoInterview</span> -->
+      </a>
+    </div>
+    <nav class="d-flex align-items-center gap-3 user-actions">
+      <!-- <h6 class="text-dark fw-3">+91 9599434434</h6> -->
+       <img src="/assets/whatsapp-svgrepo-com.svg" class="img-fluid" style="width: 40px" alt="App Logo">
+      <button class="btn" (click)="openLoginDialog()">Login</button>
+    </nav>
+  </div>
+</header>
+
+<div class="p-3" style="height: 295px; background-image: url('/assets/back.avif'); background-size: cover; background-position: center;"></div>
+
+<app-schedule-interview></app-schedule-interview>
+
+<main class="py-5" style="background-color: #f8f9fa;">
+  <div class="container">
+    <h2 class="text-center mb-5">How It Works</h2>
+    <div class="row text-center g-4">
+      <div class="col-lg-4">
+        <div class="card h-100 border-0 shadow-sm p-4 text-white" style="background: linear-gradient(45deg, #0d6efd, #6f42c1);">
+          <i class="material-icons" style="font-size: 48px;">description</i>
+          <h4 class="fw-bold mt-3">1. Book Your Session</h4>
+          <p class="mb-0" style="opacity: 0.9;">Choose an interview type and schedule a time that works for you.</p>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card h-100 border-0 shadow-sm p-4 text-white" style="background: linear-gradient(45deg, #6c757d, #343a40);">
+          <i class="material-icons" style="font-size: 48px;">groups</i>
+          <h4 class="fw-bold mt-3">2. Attend the Interview</h4>
+          <p class="mb-0" style="opacity: 0.9;">Join the session with an industry expert and showcase your skills in a real-world scenario.</p>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card h-100 border-0 shadow-sm p-4 text-white" style="background: linear-gradient(45deg, #198754, #20c997);">
+          <i class="material-icons" style="font-size: 48px;">workspace_premium</i>
+          <h4 class="fw-bold mt-3">3. Get Reviewed</h4>
+          <p class="mb-0" style="opacity: 0.9;">Receive detailed, constructive feedback to help you improve and succeed.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <app-footer></app-footer>
+</footer>

@@ -1,0 +1,220 @@
+<div class="py-5" style="background-color: #f8f9fa;">
+  <div class="container" [ngStyle]="{'margin-top': isHomePage ? '-250px' : '0'}">
+    <h2 class="text-center mb-4" [class.text-white]="isHomePage" style="font-family: 'Playwrite NZ', cursive;">Book Your <span class="fw-bold">Mock Interview </span>Today</h2>
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-11">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-0">
+            <div class="row g-0">
+              <!-- Left side with gradient and text -->
+              <div class="col-lg-4 d-none d-lg-flex flex-column justify-content-center align-items-center text-white p-5 text-center" style="background: linear-gradient(135deg, #6f42c1, #0d6efd); border-top-left-radius: var(--bs-card-inner-border-radius); border-bottom-left-radius: var(--bs-card-inner-border-radius);">
+                <h3 class="fw-bold mb-3">Ready to Ace Your Next Interview?</h3>
+                <p class="text-white-50">Practice with industry experts, get real-time feedback, and build the confidence you need to land your dream job.</p>
+              </div>
+
+              <!-- Right side with the form -->
+              <div class="col-lg-8 p-4 p-md-5">
+                
+
+                <mat-stepper orientation="vertical" [linear]="true" #stepper>
+                  <!-- Step 1: Personal Details -->
+                  <mat-step [stepControl]="personalDetailsForm">
+                    <ng-template matStepLabel>Personal Details</ng-template>
+                    <p class="note">Please fill your details</p>
+                    <form [formGroup]="personalDetailsForm">
+                      <div class="row mt-2">
+                        <div class="col-md-6">
+                          <mat-form-field appearance="outline" class="w-100 mb-3">
+                            <mat-label>Full Name</mat-label>
+                            <input matInput formControlName="candidateName">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                          <mat-form-field appearance="outline" class="w-100 mb-3">
+                            <mat-label>Email Address</mat-label>
+                            <input matInput type="email" formControlName="candidateEmail">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <mat-form-field appearance="outline" class="w-100 mb-3">
+                            <mat-label>Mobile Number</mat-label>
+                            <input matInput type="tel" formControlName="mobileNumber" maxlength="10" pattern="[0-9]*">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                          <mat-form-field appearance="outline" class="w-100 mb-3">
+                            <mat-label>Experience Level</mat-label>
+                            <mat-select formControlName="experienceLevel">
+                              <mat-option value="fresher">Fresher</mat-option>
+                              <mat-option value="intermediate">Intermediate (1-3 years)</mat-option>
+                              <mat-option value="experienced">Experienced (3+ years)</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="d-flex justify-content-end">
+                        <button matStepperNext class="btn btn-primary">Next</button>
+                      </div>
+                    </form>
+                  </mat-step>
+
+                  <!-- Step 2: Skills & Focus -->
+                  <mat-step [stepControl]="skillsForm">
+                    <ng-template matStepLabel>Skills & Focus</ng-template>
+                    <form [formGroup]="skillsForm">
+                      <mat-form-field appearance="outline" class="w-100 mb-3 mt-2">
+                        <mat-label>Interview Focus</mat-label>
+                        <mat-select formControlName="type">
+                          <mat-option value="front">Front End</mat-option>
+                          <mat-option value="backend">Backend</mat-option>
+                          <mat-option value="fullstack">Full Stack</mat-option>
+                          <mat-option value="data">Data Engineering</mat-option>
+                          <mat-option value="aiml">AIML Engineer</mat-option>
+                          <mat-option value="qa">Software Testing</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline" class="w-100 mb-2">
+                        <mat-label>Tech Skills</mat-label>
+                        <mat-chip-grid #chipGrid aria-label="Enter skills">
+                          @for (skill of skills.value; track skill) {
+                            <mat-chip-row (removed)="removeSkill(skill)">
+                              {{skill}}
+                              <button matChipRemove [attr.aria-label]="'remove ' + skill">
+                                <mat-icon>cancel</mat-icon>
+                              </button>
+                            </mat-chip-row>
+                          }
+                        </mat-chip-grid>
+                        <input placeholder="New skill..." #skillInput [formControl]="skillCtrl" [matAutocomplete]="auto" [matChipInputFor]="chipGrid" />
+                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                          @for (skill of filteredSkills | async; track skill) {
+                            <mat-option [value]="skill">{{skill}}</mat-option>
+                          }
+                        </mat-autocomplete>
+                      </mat-form-field>
+
+                      <div class="mb-3">
+                        <label for="resumeUpload" class="form-label text-muted">Upload Resume (Optional)</label>
+                        <div class="d-flex align-items-center gap-3">
+                          <input class="d-none" type="file" id="fileUpload" (change)="onFileSelected($event)" #fileUpload accept=".pdf,.doc,.docx">
+                          <button type="button" class="btn btn-outline-primary" (click)="fileUpload.click()">
+                            <mat-icon>attach_file</mat-icon>
+                            Choose File
+                          </button>
+                          <span class="text-muted" style="font-size: 0.9rem;">
+                            {{ skillsForm.get('resume')?.value?.name || 'No file chosen' }}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="d-flex justify-content-end gap-2">
+                        <button  matStepperPrevious class="btn btn-outline-secondary">Back</button>
+                        <button  matStepperNext class="btn btn-primary">Next</button>
+                      </div>
+                    </form>
+                  </mat-step>
+
+                  <!-- Step 3: Time Slots -->
+                  <mat-step [stepControl]="slotsForm">
+                    <ng-template matStepLabel>Select Preferred Time Slots</ng-template>
+                    <form [formGroup]="slotsForm">
+                      <p class="mb-2 text-muted mt-2">Select up to 3 preferred interview slots. At least one is required.</p>
+                      <div formGroupName="slot1" class="row">
+                        <div class="col-md-6">
+                          <mat-form-field appearance="outline" class="w-100 mb-3">
+                            <mat-label>Preferred Date 1</mat-label>
+                            <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker1" formControlName="date">
+                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                          <mat-form-field appearance="outline" class="w-100 mb-3">
+                            <mat-label>Preferred Time 1</mat-label>
+                            <mat-select formControlName="time">
+                              <mat-option value="09:00">09:00 AM</mat-option>
+                              <mat-option value="10:00">10:00 AM</mat-option>
+                              <mat-option value="11:00">11:00 AM</mat-option>
+                              <mat-option value="02:00">02:00 PM</mat-option>
+                              <mat-option value="03:00">03:00 PM</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div formGroupName="slot2" class="row">
+                        <div class="col-md-6">
+                          <mat-form-field appearance="outline" class="w-100 mb-3">
+                            <mat-label>Preferred Date 2 </mat-label>
+                            <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker2" formControlName="date">
+                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                          <mat-form-field appearance="outline" class="w-100 mb-3">
+                            <mat-label>Preferred Time 2 </mat-label>
+                            <mat-select formControlName="time">
+                              <mat-option value="09:00">09:00 AM</mat-option>
+                              <mat-option value="10:00">10:00 AM</mat-option>
+                              <mat-option value="11:00">11:00 AM</mat-option>
+                              <mat-option value="02:00">02:00 PM</mat-option>
+                              <mat-option value="03:00">03:00 PM</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div formGroupName="slot3" class="row">
+                        <div class="col-md-6">
+                          <mat-form-field appearance="outline" class="w-100 mb-3">
+                            <mat-label>Preferred Date 3 </mat-label>
+                            <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker3" formControlName="date">
+                            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                            <mat-datepicker #picker3></mat-datepicker>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                          <mat-form-field appearance="outline" class="w-100 mb-3">
+                            <mat-label>Preferred Time 3</mat-label>
+                            <mat-select formControlName="time">
+                              <mat-option value="09:00">09:00 AM</mat-option>
+                              <mat-option value="10:00">10:00 AM</mat-option>
+                              <mat-option value="11:00">11:00 AM</mat-option>
+                              <mat-option value="02:00">02:00 PM</mat-option>
+                              <mat-option value="03:00">03:00 PM</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="d-flex justify-content-end gap-2">
+                        <button matStepperPrevious class="btn btn-outline-secondary">Back</button>
+                        <button  matStepperNext class="btn btn-primary">Next</button>
+                      </div>
+                    </form>
+                  </mat-step>
+
+                  <!-- Step 4: Price & Confirmation -->
+                  <mat-step>
+                    <ng-template matStepLabel>Confirm & Book</ng-template>
+                    <div class="text-center p-4">
+                      <h4 class="fw-normal">Total Price: <span class="fw-bold">₹49.99</span></h4>
+                      <p class="text-muted">Please review your details before booking. You will be redirected to the payment gateway after confirmation.</p>
+                    </div>
+                    <div class="d-flex w-100 gap-2 mt-4">
+                      <button  matStepperPrevious class="btn btn-outline-secondary w-30">Back</button>
+                      <button class="btn btn-primary w-100" (click)="scheduleInterview()" [style.background]="'linear-gradient(45deg, #0d6efd, #6f42c1)'" [style.border]="'none'">
+                        Book & Proceed to Payment
+                      </button>
+                    </div>
+                  </mat-step>
+                </mat-stepper>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

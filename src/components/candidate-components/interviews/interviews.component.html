@@ -1,0 +1,55 @@
+<div class="container-fluid py-4">
+  <div class="mb-4">
+    <h2 class="page-title">My Interviews</h2>
+    <p class="page-subtitle">
+      Track your upcoming and completed mock interviews.
+    </p>
+  </div>
+  <div class="row g-4">
+    @for (interview of interviews; track interview.id) {
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h6 class="mb-0 fw-bold text-capitalize">{{interview.type}} Interview</h6>
+            <span class="badge rounded-pill" [ngClass]="{
+              'bg-warning-subtle text-warning-emphasis': interview.status === 'Pending',
+              'bg-success-subtle text-success-emphasis': interview.status === 'Confirmed',
+              'bg-secondary-subtle text-secondary-emphasis': interview.status === 'Completed'
+            }">{{interview.status}}</span>
+          </div>
+          <div class="card-body">
+            <p class="mb-2"><strong class="fw-medium">Experience:</strong> <span class="text-capitalize">{{interview.experienceLevel}}</span></p>
+            <div class="mb-3">
+              <strong class="fw-medium d-block mb-1">Skills:</strong>
+              @for (skill of interview.skills; track skill) {
+                <span class="badge bg-light text-dark fw-normal me-1 border">{{skill}}</span>
+              }
+            </div>
+            <div>
+              <strong class="fw-medium d-block mb-2">Preferred Slots:</strong>
+              <div class="d-flex flex-wrap gap-2">
+                @for (slot of interview.slots; track $index) {
+                  @if (slot.date && slot.time) {
+                    <div class="slot-card">
+                      <div class="slot-day">{{ slot.date | date:'d' }}</div>
+                      <div class="slot-month">{{ slot.date | date:'MMM' }}</div>
+                      <div class="slot-time">{{ slot.time }}</div>
+                    </div>
+                  }
+                }
+              </div>
+            </div>
+          </div>
+          <div class="card-footer d-flex justify-content-end gap-2">
+            <button class="btn btn-sm btn-outline-secondary">View Details</button>
+            @if (interview.status !== 'Completed') {
+              <button class="btn btn-sm btn-outline-danger">Cancel</button>
+            }
+          </div>
+        </div>
+      </div>
+    } @empty {
+      <app-no-data></app-no-data>
+    }
+  </div>
+</div>

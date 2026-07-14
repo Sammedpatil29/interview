@@ -1,0 +1,52 @@
+<div class="d-flex" id="wrapper">
+  <!-- Sidebar-->
+  <div class="border-end bg-white" id="sidebar-wrapper">
+    <div class="sidebar-heading border-bottom bg-light">
+      <img src="/assets/logo.png" class="img-fluid" alt="App Logo" style="height: 40px;">
+    </div>
+    <div class="list-group list-group-flush">
+      <a class="list-group-item list-group-item-action list-group-item-light p-3 sidebar-link" routerLink="/candidate/dashboard" routerLinkActive="active">Dashboard</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3 sidebar-link" routerLink="/candidate/schedule" routerLinkActive="active">Schedule Interviews</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3 sidebar-link" routerLink="/candidate/interviews" routerLinkActive="active">My Interviews</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3 sidebar-link" routerLink="/candidate/transactions" routerLinkActive="active">Transactions</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3 sidebar-link" routerLink="/candidate/profile" routerLinkActive="active">Profile</a>
+      <!-- <a class="list-group-item list-group-item-action list-group-item-light p-3 sidebar-link" routerLink="/candidate/settings" routerLinkActive="active">Settings</a> -->
+    </div>
+  </div>
+
+  <!-- Backdrop, mobile only -->
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <!-- Page content wrapper-->
+  <div id="page-content-wrapper">
+    <!-- Top navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom sticky-top" id="topNavbar">
+      <div class="container-fluid">
+        <div class="d-flex align-items-center gap-2">
+          <!-- Mobile only: hamburger + logo -->
+          <button class="btn btn-icon d-flex d-lg-none align-items-center justify-content-center" id="sidebarToggleMobile" aria-label="Toggle menu">
+            <mat-icon>menu</mat-icon>
+          </button>
+          <img src="/assets/logo.png" class="d-lg-none mobile-logo" alt="App Logo">
+
+          <!-- Desktop only: existing collapse/expand toggle -->
+          <!-- <button class="btn btn-primary d-none d-lg-flex align-items-center" id="sidebarToggle" aria-label="Toggle sidebar">
+            <mat-icon>menu</mat-icon>
+          </button> -->
+          <button class="btn btn-primary d-none d-lg-flex align-items-center" id="sidebarToggle" aria-label="Toggle sidebar">
+            <mat-icon>menu</mat-icon>
+          </button>
+        </div>
+
+        <div class="ms-auto d-flex align-items-center gap-1">
+            <span class="bg-success text-center text-white" style="height: 40px; width: 40px; border-radius: 50%; font-size: 28px">C</span>
+          <span class="user-name">Candidate Name</span>
+        </div>
+      </div>
+    </nav>
+    <!-- Page content-->
+    <div class="container-fluid p-1">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
