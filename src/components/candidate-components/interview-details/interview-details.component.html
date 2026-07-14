@@ -10,9 +10,11 @@
           'bg-info-subtle text-info-emphasis': interviewDetails.status === 'Completed' || interviewDetails.payment === 'paid'
         }">{{interviewDetails.status}}</span>
     </div>
-    <div class="text-success fw-bold fs-4">
+    @if(role.role === 'interviewer' || role.role === 'admin'){
+        <div class="text-success fw-bold fs-4">
                 +{{interviewDetails.interviewerShare}}
             </div>
+    }
 </div>
 
     <div class="row g-4">
@@ -44,10 +46,13 @@
         </div>
 
         <!-- Preferred Slots -->
-        <div class="card shadow-sm border-0 mb-4">
+        @if(!interviewDetails.schedule){
+            <div class="card shadow-sm border-0 mb-4">
           <div class="card-header bg-transparent fw-bold d-flex justify-content-between align-items-center">
             <span>Your Preferred Slots</span>
-            <button class="btn btn-sm btn-outline-primary">Schedule</button>
+            @if(role.role === 'admin' || role.role === 'hr'){
+                <button class="btn btn-sm btn-outline-primary">Schedule</button>
+            }
           </div>
           <div class="card-body">
             <div class="d-flex flex-wrap gap-3">
@@ -63,6 +68,7 @@
             </div>
           </div>
         </div>
+        }
 
         <!-- Interview Timeline -->
         <div class="card shadow-sm border-0 mb-4">
@@ -95,7 +101,10 @@
               <span>Interviewer Feedback</span>
               <div class="d-flex gap-2">
                 <button class="btn btn-sm btn-outline-secondary">Detailed View</button>
+                @if(role.role === 'admin' || role.role === 'interviewer'){
                 <button class="btn btn-sm btn-outline-primary">Add Feedback</button>
+            }
+                
               </div>
             </div>
             <div class="card-body">
@@ -107,6 +116,24 @@
 
       <!-- Right Column -->
       <div class="col-lg-4">
+        <!-- Scheduled Time -->
+        @if(interviewDetails.schedule){
+          <div class="card shadow-sm border-0 bg-primary-subtle text-primary-emphasis mb-3">
+            <div class="card-header bg-transparent fw-bold">Interview Scheduled</div>
+            <div class="card-body text-center">
+              <h5 class="mb-1">{{interviewDetails.schedule.date | date: 'fullDate'}}</h5>
+              <p class="mb-3">{{interviewDetails.schedule.time}}</p>
+              <div class="d-flex justify-content-center gap-2">
+                <button (click)="openMeeting()" target="_blank" class="btn btn-primary" [disabled]="!isJoinEnabled()">Join Interview</button>
+                
+                @if(role.role === 'admin' || role.role === 'hr'){
+                <button class="btn btn-outline-secondary">Reschedule</button>
+            }
+              </div>
+            </div>
+          </div>
+        }
+
         <!-- Personal Details -->
         <div class="card shadow-sm border-0 mb-4">
           <div class="card-header bg-transparent fw-bold">Personal Information</div>
@@ -121,7 +148,10 @@
         <div class="card shadow-sm border-0 mb-4">
           <div class="card-header bg-transparent fw-bold d-flex justify-content-between align-items-center">
             <span>Assigned To</span>
-            <button class="btn btn-sm btn-outline-primary">Assign Interviewer</button>
+            @if(role.role === 'admin' || role.role === 'hr'){
+                <button class="btn btn-sm btn-outline-primary">Assign Interviewer</button>
+            }
+            
           </div>
           <div class="card-body">
             <p class="mb-2"><strong class="fw-medium">HR Contact:</strong>
@@ -135,20 +165,7 @@
           </div>
         </div>
 
-        <!-- Scheduled Time -->
-        @if(interviewDetails.schedule){
-          <div class="card shadow-sm border-0 bg-primary-subtle text-primary-emphasis">
-            <div class="card-header bg-transparent fw-bold">Interview Scheduled</div>
-            <div class="card-body text-center">
-              <h5 class="mb-1">{{interviewDetails.schedule.date | date: 'fullDate'}}</h5>
-              <p class="mb-3">{{interviewDetails.schedule.time}}</p>
-              <div class="d-flex justify-content-center gap-2">
-                <a href="{{interviewDetails.meetingUrl}}" target="_blank" class="btn btn-primary">Join Interview</a>
-                <button class="btn btn-outline-secondary">Reschedule</button>
-              </div>
-            </div>
-          </div>
-        }
+        
       </div>
     </div>
   } @else {

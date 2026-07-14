@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { NoDataComponent } from '../../public-components/no-data/no-data.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InterviewDetailsComponent } from "../interview-details/interview-details.component";
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-interviews',
@@ -14,6 +15,7 @@ import { InterviewDetailsComponent } from "../interview-details/interview-detail
 })
 export class InterviewsComponent implements OnInit{
   id:any;
+  role:any;
   interviews = [
     {
       id: 1,
@@ -42,12 +44,15 @@ export class InterviewsComponent implements OnInit{
     }
   ];
 
-  constructor(private route: ActivatedRoute, private router: Router){}
+  constructor(private route: ActivatedRoute, private router: Router, private authService: AuthService){}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.id = params['id'];
     });
+    this.authService.role$.subscribe((res:any)=>{
+      this.role = res
+    })
   }
 
   viewDetails(id:any){

@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit, ElementRef } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-candidate-layout',
@@ -12,10 +13,16 @@ import { MatIconModule } from '@angular/material/icon';
 export class CandidateLayoutComponent implements OnInit, AfterViewInit {
 
   private readonly mobileBreakpoint = 992;
+  role:any;
+  value:any;
 
-  constructor(private elementRef: ElementRef) { }
+  constructor(private elementRef: ElementRef, private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
+    this.authService.role$.subscribe((res:any)=>{
+      this.role = res
+      this.value = this.role?.name[0]
+    })
   }
 
   ngAfterViewInit(): void {
@@ -60,4 +67,8 @@ export class CandidateLayoutComponent implements OnInit, AfterViewInit {
     });
   }
 
+  logout(){
+    sessionStorage.removeItem('token')
+    this.router.navigate(['/home'])
+  }
 }

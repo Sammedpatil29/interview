@@ -42,9 +42,13 @@
             </div>
           </div>
           <div class="card-footer d-flex justify-content-between align-items-center gap-2">
-            <div class="text-success fw-bold fs-4">
+            @if(role.role === 'admin' || role.role === 'interviewer'){
+                <div class="text-success fw-bold fs-4">
                 +350
             </div>
+            } @else {
+                <div></div>
+            }
             <div class="d-flex gap-1">
                 <button class="btn btn-sm btn-outline-secondary" (click)="viewDetails(interview.id)">View Details</button>
             @if (interview.status !== 'Completed') {
