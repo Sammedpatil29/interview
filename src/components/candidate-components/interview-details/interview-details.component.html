@@ -51,7 +51,7 @@
           <div class="card-header bg-transparent fw-bold d-flex justify-content-between align-items-center">
             <span>Your Preferred Slots</span>
             @if(role.role === 'admin' || role.role === 'hr'){
-                <button class="btn btn-sm btn-outline-primary">Schedule</button>
+                <button class="btn btn-sm btn-outline-primary" (click)="openReschedule()">Schedule</button>
             }
           </div>
           <div class="card-body">
@@ -95,7 +95,6 @@
         </div>
 
         <!-- Feedback -->
-        @if(interviewDetails.feedback){
           <div class="card shadow-sm border-0">
             <div class="card-header bg-transparent fw-bold d-flex justify-content-between align-items-center">
               <span>Interviewer Feedback</span>
@@ -111,7 +110,6 @@
               <p class="text-muted">{{interviewDetails.feedback}}</p>
             </div>
           </div>
-        }
       </div>
 
       <!-- Right Column -->
@@ -127,7 +125,7 @@
                 <button (click)="openMeeting()" target="_blank" class="btn btn-primary" [disabled]="!isJoinEnabled()">Join Interview</button>
                 
                 @if(role.role === 'admin' || role.role === 'hr'){
-                <button class="btn btn-outline-secondary">Reschedule</button>
+                <button class="btn btn-outline-secondary" (click)="openReschedule()">Reschedule</button>
             }
               </div>
             </div>
@@ -149,7 +147,7 @@
           <div class="card-header bg-transparent fw-bold d-flex justify-content-between align-items-center">
             <span>Assigned To</span>
             @if(role.role === 'admin' || role.role === 'hr'){
-                <button class="btn btn-sm btn-outline-primary">Assign Interviewer</button>
+                <button class="btn btn-sm btn-outline-primary" (click)='openReschedule()'>Assign Interviewer</button>
             }
             
           </div>
@@ -159,7 +157,7 @@
             </p>
             @if(interviewDetails.interviewer){
               <p class="mb-0"><strong class="fw-medium">Interviewer:</strong>
-                <span class="text-muted">{{interviewDetails.interviewer?.name}} - {{interviewDetails?.interviewer?.exp}}</span>
+                <span class="text-muted">{{interviewDetails.interviewer?.name}} - {{interviewDetails?.interviewer?.exp}} years - {{interviewDetails?.interviewer?.role}}</span>
               </p>
             }
           </div>
@@ -172,3 +170,7 @@
     <app-no-data></app-no-data>
   }
 </div>
+
+@if(isLoading){
+  <app-loader></app-loader>
+}

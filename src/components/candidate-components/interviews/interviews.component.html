@@ -12,34 +12,46 @@
         <div class="card h-100 shadow-sm">
           <div class="card-header d-flex justify-content-between align-items-center">
             <h6 class="mb-0 fw-bold text-capitalize">{{interview.type}} Interview</h6>
-            <span class="badge rounded-pill" [ngClass]="{
-              'bg-warning-subtle text-warning-emphasis': interview.status === 'Pending',
-              'bg-success-subtle text-success-emphasis': interview.status === 'Confirmed',
-              'bg-secondary-subtle text-secondary-emphasis': interview.status === 'Completed'
-            }">{{interview.status}}</span>
+            <span class="badge text-bg-secondary rounded-pill">{{interview?.timeline[interview?.timeline.length - 1]?.status}}</span>
           </div>
           <div class="card-body">
             <p class="mb-2"><strong class="fw-medium">Experience:</strong> <span class="text-capitalize">{{interview.experienceLevel}}</span></p>
+            <p class="mb-2"><strong class="fw-medium">Name:</strong> <span class="text-capitalize">{{interview.candidateName}}</span></p>
             <div class="mb-3">
               <strong class="fw-medium d-block mb-1">Skills:</strong>
               @for (skill of interview.skills; track skill) {
                 <span class="badge bg-light text-dark fw-normal me-1 border">{{skill}}</span>
               }
             </div>
-            <div>
+            @if(!interview?.schedule){
+              <div>
               <strong class="fw-medium d-block mb-2">Preferred Slots:</strong>
               <div class="d-flex flex-wrap gap-2">
-                @for (slot of interview.slots; track $index) {
-                  @if (slot.date && slot.time) {
+                @for (key of objectKeys(interview.slots); track key) {
+                  @if (interview.slots[key].date && interview.slots[key].time) {
                     <div class="slot-card">
-                      <div class="slot-day">{{ slot.date | date:'d' }}</div>
-                      <div class="slot-month">{{ slot.date | date:'MMM' }}</div>
-                      <div class="slot-time">{{ slot.time }}</div>
+                      <div class="slot-day">{{ interview.slots[key].date | date:'d' }}</div>
+                      <div class="slot-month">{{ interview.slots[key].date | date:'MMM' }}</div>
+                      <div class="slot-time">{{ formatTime(interview.slots[key].time) }}</div>
                     </div>
                   }
                 }
               </div>
             </div>
+            } @else {
+              <div>
+              <strong class="fw-medium d-block mb-2">Interview Scheduled🔥</strong>
+              <div class="d-flex flex-wrap gap-2">
+                  @if (interview.schedule) {
+                    <div class="slot-card w-100">
+                      <div class="slot-day">{{ interview.schedule.date | date:'d' }}</div>
+                      <div class="slot-month">{{ interview.schedule.date | date:'MMM' }}</div>
+                      <div class="slot-time">{{ formatTime(interview.schedule.time) }}</div>
+                    </div>
+                  }
+              </div>
+            </div>
+            }
           </div>
           <div class="card-footer d-flex justify-content-between align-items-center gap-2">
             @if(role.role === 'admin' || role.role === 'interviewer'){
@@ -50,9 +62,9 @@
                 <div></div>
             }
             <div class="d-flex gap-1">
-                <button class="btn btn-sm btn-outline-secondary" (click)="viewDetails(interview.id)">View Details</button>
-            @if (interview.status !== 'Completed') {
-              <button class="btn btn-sm btn-outline-danger">Join Now</button>
+                <button class="btn btn-primary" (click)="viewDetails(interview.id)">View Details</button>
+            @if (interview.schedule) {
+              <button class="btn btn-primary" [disabled]="!isJoinEnabled(interview)">Join Now</button>
             }
             </div>
           </div>
@@ -65,4 +77,8 @@
 </div>
 } @else {
     <app-interview-details [id]="id"></app-interview-details>
+}
+
+@if(isLoading){
+  <app-loader></app-loader>
 }

@@ -14,6 +14,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
 import { Observable, startWith, map } from 'rxjs';
+import { InterviewService } from '../../../services/interview.service';
 
 @Component({
   selector: 'app-schedule-interview',
@@ -49,12 +50,15 @@ export class ScheduleInterviewComponent implements OnInit {
   maxDate: any;
 
   isHomePage: boolean = false;
+  bookingSuccess: boolean = false;
 
   allSkills: string[] = ['Angular', 'React', 'Vue', 'Node.js', 'Express', 'MongoDB', 'SQL', 'Java', 'Python', 'AWS', 'Docker'];
   filteredSkills!: Observable<string[]>;
   skillCtrl = new FormControl();
 
   @ViewChild('skillInput') skillInput!: ElementRef<HTMLInputElement>;
+
+  constructor(private interviewService: InterviewService){}
 
   get skills() {
     return this.skillsForm.get('skills') as FormControl;
@@ -117,7 +121,10 @@ export class ScheduleInterviewComponent implements OnInit {
       // will likely be added by your backend service upon processing.
     };
     console.log('Scheduling interview with details:', payload);
-    // Here you would typically call a service to save the interview details
+    this.interviewService.createInterview(payload).subscribe((res:any)=>{
+      this.bookingSuccess = true
+      console.log(res)
+    })
   }
 
   removeSkill(skill: string): void {

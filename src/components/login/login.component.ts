@@ -48,7 +48,17 @@ if(this.userType == 'candidate'){
     this.authService.login(res.token);
     this.router.navigate(['/candidate'])
   })
+} else if(this.userType == 'hr'){
+  let params = {
+    contact: this.mobileNumber,
+    password: this.password
+  }
+  this.loginService.hrLogin(params).subscribe((res:any)=>{
+    this.dialogRef.close();
+    this.authService.login(res.token);
+    this.router.navigate(['/candidate'])
+  })
 }
-}
+  }
 
 }
