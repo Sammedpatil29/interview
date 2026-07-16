@@ -1,0 +1,30 @@
+<h2 mat-dialog-title>Process Manual Payout</h2>
+<mat-dialog-content class="mat-typography">
+  <p>Generate a QR code from the interviewer's UPI ID to complete the payment, then enter the transaction ID to confirm.</p>
+
+  <!-- UPI ID and QR Generation -->
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Interviewer's UPI ID</mat-label>
+    <input matInput [(ngModel)]="upiId" placeholder="name@bank" (keyup.enter)="generateQrCode()">
+  </mat-form-field>
+
+  <div class="text-center my-3">
+    <button class="btn btn-primary" (click)="generateQrCode()" [disabled]="!upiId">Generate QR Code</button>
+  </div>
+
+  @if (qrData) {
+    <div class="text-center p-3 border rounded bg-light mb-3">
+      <img [src]="qrData" alt="UPI QR Code" class="qr-code">
+      <p class="small text-muted mt-2">Scan the QR code to pay ₹{{amount}}.</p>
+    </div>
+
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Payment Transaction ID</mat-label>
+      <input matInput [(ngModel)]="transactionId" placeholder="Enter the ID from your payment app">
+    </mat-form-field>
+  }
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button class="btn btn-primary" [mat-dialog-close]="false">Cancel</button>
+  <button class="btn btn-primary ms-2" [mat-dialog-close]="{ transactionId: transactionId }" [disabled]="!transactionId">Confirm Payout</button>
+</mat-dialog-actions>

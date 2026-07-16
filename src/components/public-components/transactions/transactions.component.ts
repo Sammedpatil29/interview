@@ -39,7 +39,7 @@ getTransactions(){
   this.isLoading = true
   this.interviewService.getTransactions().subscribe((res:any)=>{
     this.isLoading = false
-    this.transactions = res.transactions
+    this.transactions = res.transactions.reverse()
     this.summaryCards[0].value = res.wallet.balance
     this.summaryCards[1].value = res.wallet.pending
     this.summaryCards[2].value = res.wallet.withdrawn
@@ -53,6 +53,10 @@ getTransactions(){
 withdraw(){
   this.dialog.open(WithdrawFormComponent, {
     maxWidth: '30vw'
+  }).afterClosed().subscribe((res:any)=>{
+    if(res){
+      this.getTransactions()
+    }
   })
 }
 }

@@ -1,3 +1,8 @@
+:host {
+  position: relative;
+  display: block;
+}
+
 .page-title{
     font-size:30px;
     font-weight:700;
@@ -7,11 +12,12 @@
     color:#6b7280;
 }
 
-.card {
+.interview-card {
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border: 1px solid var(--bs-border-color-translucent);
 }
 
-.card:hover {
+.interview-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
 }
@@ -21,6 +27,16 @@
     border-color: var(--bs-border-color-translucent);
 }
 
+.candidate-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.experience-level {
+    margin-bottom: 1rem;
+}
+
 .slot-card {
     background: #f8f9fa;
     border: 1px solid #e9ecef;
@@ -28,12 +44,28 @@
     text-align: center;
     padding: 8px;
     min-width: 70px;
+    transition: all 0.2s ease-in-out;
+}
+
+.scheduled-slot {
+    background: var(--bs-primary-bg-subtle);
+    border-color: var(--bs-primary);
+    color: var(--bs-primary-text-emphasis);
+}
+
+.scheduled-slot .slot-month {
+    color: var(--bs-primary-text-emphasis);
+    opacity: 0.8;
 }
 
 .slot-day {
     font-size: 20px;
     font-weight: 700;
     line-height: 1;
+}
+
+.day-suffix {
+    font-size: 0.7rem;
 }
 
 .slot-month {
@@ -51,4 +83,21 @@
     border-radius: 4px;
     padding: 2px 4px;
     border: 1px solid #e9ecef;
+}
+
+.skill-badge {
+    background-color: #e9ecef;
+    color: #495057;
+    font-weight: 500;
+    padding: 0.3em 0.6em;
+}
+
+.interviewer-share {
+    font-size: 1.1rem;
+    letter-spacing: -0.5px;
+    visibility: hidden; /* Hidden by default, shown on hover */
+}
+
+.interview-card:hover .interviewer-share {
+    visibility: visible;
 }

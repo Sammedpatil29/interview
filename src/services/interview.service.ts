@@ -57,4 +57,8 @@ token = ''
   getUpi(){
     return this.http.get(`${this.url}/api/interviewer/upi`, { headers: this.getAuthHeaders() })
   }
+
+  withdraw(params:any){
+    return this.http.post(`${this.url}/api/payout`, params, { headers: this.getAuthHeaders() })
+  }
 }

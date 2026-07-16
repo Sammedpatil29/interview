@@ -11,5 +11,5 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button class="btn btn-primary me-2" [mat-dialog-close]="false">Cancel</button>
-  <button  class="btn btn-primary" [mat-dialog-close]="upiId" [disabled]="!upiId">Request Withdrawal</button>
+  <button  class="btn btn-primary"  [disabled]="!upiId" (click)="requestWithdraw()">Request Withdrawal</button>
 </mat-dialog-actions>
