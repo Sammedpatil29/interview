@@ -15,4 +15,8 @@ url = 'http://localhost:3000'
  hrLogin(params:any){
   return this.http.post(`${this.url}/api/hr/login`, params)
  }
+
+ interviewerLogin(params:any){
+  return this.http.post(`${this.url}/api/interviewer/login`, params)
+ }
 }

@@ -42,6 +42,14 @@ export const routes: Routes = [
         loadComponent: () => import('../components/public-components/transactions/transactions.component').then(m => m).then(m => m.TransactionsComponent),
     },
             {
+        path: 'transactionRequests',
+        loadComponent: () => import('../components/candidate-components/transaction-requests/transaction-requests.component').then(m => m).then(m => m.TransactionRequestsComponent),
+    },
+            {
+        path: 'payout',
+        loadComponent: () => import('../components/candidate-components/payout-requests/payout-requests.component').then(m => m).then(m => m.PayoutRequestsComponent),
+    },
+            {
         path: 'profile',
         loadComponent: () => import('../components/candidate-components/profile/profile.component').then(m => m).then(m => m.ProfileComponent),
     },

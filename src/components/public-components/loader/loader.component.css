@@ -1,5 +1,5 @@
 .loader-container {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -19,12 +19,9 @@
 
 @keyframes spin {
   0% {
-    filter: grayscale(0);
-  }
-  50% {
-    filter: grayscale(0.5);
+    opacity: 0;
   }
   100% {
-    filter: grayscale(1) ;
+    opacity: 1 ;
   }
 }

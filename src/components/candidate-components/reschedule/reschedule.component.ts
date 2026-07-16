@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InterviewService } from '../../../services/interview.service';
@@ -29,13 +29,15 @@ export class RescheduleComponent implements OnInit{
   interviewDetails: any = inject(MAT_DIALOG_DATA); 
   private dialogRef = inject(MatDialogRef<RescheduleComponent>);
 
+  isLoading:boolean = false;
+
   rescheduleForm: FormGroup;
   selectedSlot: { date: string; time: string } | null = null;
   minDate: Date;
   interviewers: any = [];
   selectedInterviewer: { id: string; name: string; role: string; exp: string; } | null = null;
 
-  constructor(private fb: FormBuilder, private interviewService: InterviewService){
+  constructor(private fb: FormBuilder, private interviewService: InterviewService, private cdr: ChangeDetectorRef){
     this.minDate = new Date();
     this.rescheduleForm = this.fb.group({
       date: [null],
@@ -64,8 +66,14 @@ export class RescheduleComponent implements OnInit{
   }
 
   getInterviewers(): void {
+    this.isLoading = true
     this.interviewService.getInterviewers().subscribe(res => {
-      this.interviewers = res;
+       this.isLoading = false
+       this.interviewers = res;
+       this.cdr.markForCheck(); // Manually trigger change detection
+    }, error => {
+       this.isLoading = false
+       this.cdr.markForCheck(); // Also trigger on error
     });
   }
 

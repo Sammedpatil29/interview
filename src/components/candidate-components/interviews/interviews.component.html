@@ -64,7 +64,7 @@
             <div class="d-flex gap-1">
                 <button class="btn btn-primary" (click)="viewDetails(interview.id)">View Details</button>
             @if (interview.schedule) {
-              <button class="btn btn-primary" [disabled]="!isJoinEnabled(interview)">Join Now</button>
+              <button class="btn btn-primary" style="background: green !important" [disabled]="!isJoinEnabled(interview)">Join Now</button>
             }
             </div>
           </div>

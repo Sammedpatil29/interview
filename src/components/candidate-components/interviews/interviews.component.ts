@@ -44,13 +44,9 @@ export class InterviewsComponent implements OnInit{
   }
 
   getInterviews(){
-    const token = sessionStorage.getItem('token')
-    let headers = new HttpHeaders({
-  'Authorization': `Bearer ${token}`,
-  'Content-Type': 'application/json'
-});
+    
 this.isLoading = true;
-this.interviewService.getInterviews(headers).subscribe((res:any)=>{
+this.interviewService.getInterviews().subscribe((res:any)=>{
   this.interviews = res
   this.isLoading = false;
 }, error => {
@@ -81,19 +77,17 @@ this.interviewService.getInterviews(headers).subscribe((res:any)=>{
 
   const { date, time } = interviewDetails.schedule;
 
-  // Parse date
-  const interviewDate = new Date(date);
-
-  // Parse time (HH:mm)
+  // Combine date and time into a single Date object for comparison
+  const scheduledDateTime = new Date(date);
   const [hours, minutes] = time.split(':').map(Number);
-
-  interviewDate.setHours(hours, minutes, 0, 0);
+  scheduledDateTime.setHours(hours, minutes, 0, 0);
 
   const now = new Date();
 
-  // Enable 15 minutes before interview
-  const enableTime = new Date(interviewDate.getTime() - 15 * 60 * 1000);
+  // The window for joining is from 15 minutes before to 30 minutes after the scheduled time.
+  const startTime = new Date(scheduledDateTime.getTime() - 15 * 60 * 1000);
+  const endTime = new Date(scheduledDateTime.getTime() + 30 * 60 * 1000);
 
-  return now >= enableTime;
+  return now >= startTime && now <= endTime;
 }
 }

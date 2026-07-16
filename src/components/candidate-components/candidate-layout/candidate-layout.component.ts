@@ -1,7 +1,9 @@
-import { Component, OnInit, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, inject } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../../services/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AlertDialogComponent } from '../../public-components/alert-dialog/alert-dialog.component';
 
 @Component({
   selector: 'app-candidate-layout',
@@ -15,6 +17,8 @@ export class CandidateLayoutComponent implements OnInit, AfterViewInit {
   private readonly mobileBreakpoint = 992;
   role:any;
   value:any;
+
+  readonly dialog = inject(MatDialog);
 
   constructor(private elementRef: ElementRef, private authService: AuthService, private router: Router) { }
 
@@ -68,7 +72,17 @@ export class CandidateLayoutComponent implements OnInit, AfterViewInit {
   }
 
   logout(){
-    sessionStorage.removeItem('token')
+    this.dialog.open(AlertDialogComponent, {
+      data: {
+        title: 'success',
+        body: 'Sure you want to logout?',
+        type: 'warning'
+      }
+    }).afterClosed().subscribe((res:any)=>{
+      if(res){
+        sessionStorage.removeItem('token')
     this.router.navigate(['/home'])
+      }
+    })
   }
 }

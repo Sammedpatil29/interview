@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>Request Withdrawal</h2>
+<mat-dialog-content class="mat-typography">
+  <p>Please enter your UPI ID to receive the payment. The amount will be credited to your account within 3-5 business days.</p>
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>UPI ID</mat-label>
+    <input matInput [(ngModel)]="upiId" placeholder="yourname@bank" required>
+    @if (!upiId) {
+      <mat-error>UPI ID is required.</mat-error>
+    }
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button class="btn btn-primary me-2" [mat-dialog-close]="false">Cancel</button>
+  <button  class="btn btn-primary" [mat-dialog-close]="upiId" [disabled]="!upiId">Request Withdrawal</button>
+</mat-dialog-actions>

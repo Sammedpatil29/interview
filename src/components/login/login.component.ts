@@ -44,8 +44,8 @@ if(this.userType == 'candidate'){
     password: this.password
   }
   this.loginService.candidateLogin(params).subscribe((res:any)=>{
-    this.dialogRef.close();
     this.authService.login(res.token);
+     this.dialogRef.close();
     this.router.navigate(['/candidate'])
   })
 } else if(this.userType == 'hr'){
@@ -54,10 +54,21 @@ if(this.userType == 'candidate'){
     password: this.password
   }
   this.loginService.hrLogin(params).subscribe((res:any)=>{
-    this.dialogRef.close();
     this.authService.login(res.token);
+    this.dialogRef.close();
     this.router.navigate(['/candidate'])
   })
+} else {
+  let params = {
+    contact: this.mobileNumber,
+    password: this.password
+  }
+  this.loginService.interviewerLogin(params).subscribe((res:any)=>{
+    this.authService.login(res.token);
+    this.dialogRef.close();
+    this.router.navigate(['/candidate'])
+  })
+  
 }
   }
 

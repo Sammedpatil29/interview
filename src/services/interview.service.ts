@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs'; // Observable is used but not imported
 
 @Injectable({
   providedIn: 'root'
@@ -13,35 +13,48 @@ token = ''
     this.token = sessionStorage.getItem('token') || ''
    }
 
-  createInterview(params:any){
+  private getAuthHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`,
+      'Content-Type': 'application/json'
+    });
+  }
+
+  createInterview(params: any): Observable<any> {
     return this.http.post(`${this.url}/api/interview/`, params)
   }
 
-  getInterviews(headers:any){
-    return this.http.get(`${this.url}/api/interview/`, {headers: headers})
+  getInterviews(): Observable<any> {
+    return this.http.get(`${this.url}/api/interview/`, { headers: this.getAuthHeaders() })
   }
 
-  getInterviewById(id:any){
-    let params = new HttpHeaders({
-      'Authorization': `Bearer ${this.token}`,
-      'Content-Type': 'application/json'
-    })
-    return this.http.get(`${this.url}/api/interview/${id}`, {headers: params})
+  getInterviewById(id: string): Observable<any> {
+    return this.http.get(`${this.url}/api/interview/${id}`, { headers: this.getAuthHeaders() })
   }
 
-  getInterviewers(){
-    let params = new HttpHeaders({
-      'Authorization': `Bearer ${this.token}`,
-      'Content-Type': 'application/json'
-  })
-    return this.http.get(`${this.url}/api/interviewer/`, {headers: params})
+  getInterviewers(): Observable<any> {
+    return this.http.get(`${this.url}/api/interviewer/`, { headers: this.getAuthHeaders() })
   }
   
-  updateInterview(id:any, params:any){
-    let headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.token}`,
-      'Content-Type': 'application/json'
-  })
-return this.http.put(`${this.url}/api/interview/${id}`,params, {headers: headers})
+  updateInterview(id: string, params: any): Observable<any> {
+    return this.http.put(`${this.url}/api/interview/${id}`, params, { headers: this.getAuthHeaders() })
+  }
+
+  pendingTransactionRequests(): Observable<any> {
+    return this.http.get(`${this.url}/api/interview/pending-approvals`, { headers: this.getAuthHeaders() })
+  }
+
+  approveTransaction(id: string): Observable<any> {
+    // The second argument for a PUT request is the body.
+    // Since there is no body for this request, we pass an empty object {}.
+    return this.http.put(`${this.url}/api/interview/${id}/approve-share`, {}, { headers: this.getAuthHeaders() })
+  }
+
+  getTransactions(){
+    return this.http.get(`${this.url}/api/interviewer/wallet`, { headers: this.getAuthHeaders() })
+  }
+
+  getUpi(){
+    return this.http.get(`${this.url}/api/interviewer/upi`, { headers: this.getAuthHeaders() })
   }
 }

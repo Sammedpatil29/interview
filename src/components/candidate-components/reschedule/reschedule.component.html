@@ -7,7 +7,7 @@
       <span>Schedule Interview</span>
     }
   </h3>
-  <small class="me-2"><a href="https://meet.google.com/landing" target="_blank">Get Meet Link here</a></small>
+  <small class="me-2"><a href="https://meet.google.com/landing" target="_blank"><i>Get Google Meet Link here</i></a></small>
   </div>
 
   <div class="row g-4">
@@ -15,7 +15,8 @@
     <div class="col-md-5">
       <div class="card shadow-sm border-0 h-100">
         <div class="card-header bg-transparent fw-bold">Select an Interviewer</div>
-        <div class="card-body interviewer-list">
+        @if(!isLoading){
+            <div class="card-body interviewer-list">
           @for (interviewer of interviewers; track interviewer.id) {
             <div class="interviewer-card" 
                  [class.interviewer-selected]="isInterviewerSelected(interviewer)"
@@ -27,6 +28,11 @@
             <p class="text-muted text-center m-0">No interviewers found.</p>
           }
         </div>
+        } @else {
+            <div class="d-flex align-items-center justify-content-center h-75">
+                <small class="text-secondary">Loading Interviever List...</small>
+            </div>
+        }
       </div>
     </div>
 
