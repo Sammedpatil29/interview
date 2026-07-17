@@ -73,4 +73,12 @@ token = ''
   getHrList(){
     return this.http.get(`${this.url}/api/hr`, { headers: this.getAuthHeaders() })
   }
+
+  autoSaveFeedback(id:any, params:any){
+    return this.http.put(`${this.url}/api/interview/${id}/auto-save-feedback`,params, { headers: this.getAuthHeaders() })
+  }
+
+  updateFeedback(id:any, params:any){
+    return this.http.put(`${this.url}/api/interview/${id}/feedback`,params, { headers: this.getAuthHeaders() })
+  }
 }

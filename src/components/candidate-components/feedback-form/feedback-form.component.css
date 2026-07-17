@@ -1,0 +1,59 @@
+.info-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.info-card .card-header {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.info-card p {
+    margin-bottom: 0.5rem;
+}
+
+.btn-sm mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+}
+
+.feedback-dialog-container {
+    display: flex;
+    flex-direction: column;
+    height: 85vh; /* Adjust height as needed */
+    overflow: hidden;
+}
+
+.feedback-dialog-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #dee2e6;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.feedback-dialog-content {
+    padding: 1.5rem;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.feedback-dialog-actions {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #dee2e6;
+    flex-shrink: 0;
+}
+
+.saving-indicator {
+    animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

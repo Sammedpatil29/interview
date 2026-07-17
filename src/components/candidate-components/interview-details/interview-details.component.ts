@@ -10,6 +10,8 @@ import { RescheduleComponent } from '../reschedule/reschedule.component';
 import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
 import { AlertDialogComponent } from '../../public-components/alert-dialog/alert-dialog.component';
 import { AssignHrComponent } from '../assign-hr/assign-hr.component';
+import { FeedbackFormComponent } from '../feedback-form/feedback-form.component';
+import { ViewFeedbackComponent } from '../view-feedback/view-feedback.component';
 
 @Component({
   selector: 'app-interview-details',
@@ -29,7 +31,7 @@ export class InterviewDetailsComponent implements OnInit {
   constructor(private authService: AuthService, private interviewService: InterviewService){}
 
   ngOnInit(): void {
-    this.getInterview()
+    this.getInterview(true)
     this.authService.role$.subscribe((res:any)=>{
       this.role = res
     })
@@ -94,8 +96,10 @@ openMeeting(): void {
   })
 }
 
-getInterview(){
-  this.isLoading = true;
+getInterview(reload:any){
+  if(reload){
+    this.isLoading = true;
+  }
 this.interviewService.getInterviewById(this.id).subscribe((res:any)=>{
   this.interviewDetails = res
   this.isLoading = false;
@@ -122,7 +126,7 @@ openReschedule() {
 
   dialogRef.afterClosed().subscribe(result => {
     if (result === true || result === 'true') {
-    this.getInterview();
+    this.getInterview(false);
   }
   });
 }
@@ -143,7 +147,7 @@ cancel(){
     }
   }
   this.interviewService.updateInterview(this.id, params).subscribe((res:any)=>{
-    this.getInterview();
+    this.getInterview(false);
   })
     }
   })
@@ -161,7 +165,7 @@ requestFeedback() {
       comment: 'Feedback has been requested from the interviewer.'
     }
   };
-  this.interviewService.updateInterview(this.id, params).subscribe(() => this.getInterview());
+  this.interviewService.updateInterview(this.id, params).subscribe(() => this.getInterview(true));
 }
 
 markComplete(){
@@ -209,7 +213,7 @@ markComplete(){
     }
   }
   this.interviewService.updateInterview(this.id, params).subscribe((res:any)=>{
-    this.getInterview();
+    this.getInterview(true);
   })
     }
   })
@@ -221,9 +225,28 @@ openHrWindow(){
     minWidth: '50vw'
   }).afterClosed().subscribe((res:any)=>{
     if(res){
-      this.getInterview();
+      this.getInterview(true);
     }
   })
 
 }
+
+openFeedback(){
+  this.dialog.open(FeedbackFormComponent, {
+    data: this.interviewDetails,
+    minWidth: '75vw'
+  }).afterClosed().subscribe((res)=>{
+    this.getInterview(false)
+  })
+}
+
+openViewFeedback(){
+  this.dialog.open(ViewFeedbackComponent, {
+    data: this.interviewDetails,
+    minWidth: '75vw',
+    maxHeight: '95vh'
+  })
+}
+
+
 }
