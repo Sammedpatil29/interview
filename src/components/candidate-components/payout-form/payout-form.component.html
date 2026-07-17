@@ -26,5 +26,9 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button class="btn btn-primary" [mat-dialog-close]="false">Cancel</button>
-  <button class="btn btn-primary ms-2" [mat-dialog-close]="{ transactionId: transactionId }" [disabled]="!transactionId">Confirm Payout</button>
+  <button class="btn btn-primary ms-2" (click)="confirmPayout()" [disabled]="!transactionId">Confirm Payout</button>
 </mat-dialog-actions>
+
+@if(isLoading){
+<app-loader></app-loader>
+}

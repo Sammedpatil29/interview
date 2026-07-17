@@ -10,7 +10,7 @@ import { AlertDialogComponent } from '../../public-components/alert-dialog/alert
 @Component({
   selector: 'app-transaction-requests',
   standalone: true,
-  imports: [CommonModule, MatIconModule, NoDataComponent, LoaderComponent],
+  imports: [CommonModule, MatIconModule, NoDataComponent],
   templateUrl: './transaction-requests.component.html',
   styleUrl: './transaction-requests.component.css'
 })

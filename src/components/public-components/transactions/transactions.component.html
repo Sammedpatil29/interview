@@ -49,7 +49,7 @@
               <td>{{ txn.comment }}</td>
               <td>
                 <span class="badge" [ngClass]="txn.type === 'credit' ? 'bg-success-subtle text-success-emphasis' : 'bg-danger-subtle text-danger-emphasis'">
-                  {{ txn.type }}
+                  {{ txn.type | uppercase }}
                 </span>
               </td>
               <td class="fw-medium" [ngClass]="txn.type === 'credit' ? 'text-success' : 'text-danger'">

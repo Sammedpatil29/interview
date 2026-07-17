@@ -117,10 +117,10 @@
               <span>Interviewer Feedback</span>
               <div class="d-flex gap-2">
                 @if(interviewDetails.feedback){
-                  <button class="btn btn-primary">Detailed View</button>
+                  <button class="btn btn-primary" style="padding: 2px 5px !important; min-width: 0px !important">Detailed View</button>
                 }
                 @if(role.role === 'admin' || role.role === 'interviewer'){
-                <button class="btn btn-primary" [disabled]="getInterviewState() === 'completed' || getInterviewState() === 'feedback_received'">Add Feedback</button>
+                <button class="btn btn-primary" style="padding: 2px 5px !important; min-width: 0px !important" [disabled]="getInterviewState() === 'completed' || getInterviewState() === 'feedback_received'">Add Feedback</button>
             }
                 
               </div>
@@ -171,9 +171,14 @@
         <div class="card shadow-sm border-0 mb-4">
           <div class="card-header bg-transparent fw-bold d-flex justify-content-between align-items-center">
             <span>Assigned To</span>
-            @if(role.role === 'admin' || role.role === 'hr'){
-                <button class="btn btn-sm btn-primary" [disabled]="getInterviewState() !== 'none'" (click)='openReschedule()'>Assign / Re-assign</button>
+            <div class="d-flex gap-2">
+              @if(role.role === 'admin' || role.role === 'hr'){
+                <button class="btn btn-sm btn-primary" style="padding: 2px 5px !important; min-width: 0px !important" [disabled]="getInterviewState() !== 'none'" (click)='openHrWindow()'>HR</button>
             }
+            @if(role.role === 'admin' || role.role === 'hr'){
+                <button class="btn btn-sm btn-primary" style="padding: 2px 5px !important; min-width: 0px !important" [disabled]="getInterviewState() !== 'none'" (click)='openReschedule()'>Inter.</button>
+            }
+            </div>
             
           </div>
           <div class="card-body">

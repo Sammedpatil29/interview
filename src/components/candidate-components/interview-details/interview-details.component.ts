@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { RescheduleComponent } from '../reschedule/reschedule.component';
 import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
 import { AlertDialogComponent } from '../../public-components/alert-dialog/alert-dialog.component';
+import { AssignHrComponent } from '../assign-hr/assign-hr.component';
 
 @Component({
   selector: 'app-interview-details',
@@ -212,5 +213,17 @@ markComplete(){
   })
     }
   })
+}
+
+openHrWindow(){
+  this.dialog.open(AssignHrComponent, {
+    data: this.interviewDetails,
+    minWidth: '50vw'
+  }).afterClosed().subscribe((res:any)=>{
+    if(res){
+      this.getInterview();
+    }
+  })
+
 }
 }

@@ -61,4 +61,16 @@ token = ''
   withdraw(params:any){
     return this.http.post(`${this.url}/api/payout`, params, { headers: this.getAuthHeaders() })
   }
+
+  getPayouts(){
+    return this.http.get(`${this.url}/api/payout`, { headers: this.getAuthHeaders() })
+  }
+
+  confirmPayout(id:any,params:any){
+    return this.http.put(`${this.url}/api/payout/${id}`, params, { headers: this.getAuthHeaders() })
+  }
+
+  getHrList(){
+    return this.http.get(`${this.url}/api/hr`, { headers: this.getAuthHeaders() })
+  }
 }

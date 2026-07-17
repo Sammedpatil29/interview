@@ -12,7 +12,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-alert-dialog',
-  imports: [MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatButtonModule, DragDropModule],
+  imports: [MatDialogTitle, MatDialogClose, MatButtonModule, DragDropModule],
   templateUrl: './alert-dialog.component.html',
   styleUrl: './alert-dialog.component.css'
 })
