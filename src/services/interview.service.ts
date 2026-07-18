@@ -81,4 +81,8 @@ token = ''
   updateFeedback(id:any, params:any){
     return this.http.put(`${this.url}/api/interview/${id}/feedback`,params, { headers: this.getAuthHeaders() })
   }
+
+  createInterviewer(params:any){
+    return this.http.post(`${this.url}/api/interviewer/`, params, { headers: this.getAuthHeaders() })
+  }
 }

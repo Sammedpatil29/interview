@@ -16,6 +16,10 @@ export const routes: Routes = [
         loadComponent: () => import('../components/public-components/docs/docs.component').then(m => m.DocsComponent),
     },
     {
+        path: 'onboarding',
+        loadComponent: () => import('../components/public-components/interviewer-onboard/interviewer-onboard.component').then(m => m.InterviewerOnboardComponent),
+    },
+    {
         path: 'candidate',
         loadComponent: () => import('../components/candidate-components/candidate-layout/candidate-layout.component').then(m => m.CandidateLayoutComponent),
         canActivate: [authGuardGuard],
@@ -44,6 +48,10 @@ export const routes: Routes = [
             {
         path: 'transactionRequests',
         loadComponent: () => import('../components/candidate-components/transaction-requests/transaction-requests.component').then(m => m).then(m => m.TransactionRequestsComponent),
+    },
+            {
+        path: 'interviewerRequests',
+        loadComponent: () => import('../components/candidate-components/interviewer-requests/interviewer-requests.component').then(m => m).then(m => m.InterviewerRequestsComponent),
     },
             {
         path: 'payout',

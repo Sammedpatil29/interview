@@ -13,6 +13,9 @@
       @if(role.role === 'interviewer' || role.role === 'candidate'){
               <a class="list-group-item list-group-item-action list-group-item-light p-3 sidebar-link" routerLink="/candidate/transactions" routerLinkActive="active">Transaction</a>
       }
+      @if(role.role === 'hr' || role.role === 'admin'){
+              <a class="list-group-item list-group-item-action list-group-item-light p-3 sidebar-link" routerLink="/candidate/interviewerRequests" routerLinkActive="active">Interviewer Requests</a>
+      }
       @if(role.role === 'admin'){
               <a class="list-group-item list-group-item-action list-group-item-light p-3 sidebar-link" routerLink="/candidate/transactionRequests" routerLinkActive="active">Transaction Requests</a>
       <a class="list-group-item list-group-item-action list-group-item-light p-3 sidebar-link" routerLink="/candidate/payout" routerLinkActive="active">Payout Requests</a>
