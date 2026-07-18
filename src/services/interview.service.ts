@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs'; // Observable is used but not imported
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -21,11 +21,11 @@ token = ''
   }
 
   createInterview(params: any): Observable<any> {
-    return this.http.post(`${this.url}/api/interview/`, params)
+    return this.http.post(`${this.url}/api/interview`, params, { headers: this.getAuthHeaders() })
   }
 
   getInterviews(): Observable<any> {
-    return this.http.get(`${this.url}/api/interview/`, { headers: this.getAuthHeaders() })
+    return this.http.get(`${this.url}/api/interview`, { headers: this.getAuthHeaders() })
   }
 
   getInterviewById(id: string): Observable<any> {
@@ -33,7 +33,7 @@ token = ''
   }
 
   getInterviewers(): Observable<any> {
-    return this.http.get(`${this.url}/api/interviewer/`, { headers: this.getAuthHeaders() })
+    return this.http.get(`${this.url}/api/interviewer`, { headers: this.getAuthHeaders() })
   }
   
   updateInterview(id: string, params: any): Observable<any> {
@@ -83,6 +83,24 @@ token = ''
   }
 
   createInterviewer(params:any){
-    return this.http.post(`${this.url}/api/interviewer/`, params, { headers: this.getAuthHeaders() })
+    return this.http.post(`${this.url}/api/interviewer`, params)
+  }
+
+  getInactiveInterviewers(): Observable<any> {
+    return this.http.get(`${this.url}/api/interviewer/inactive`, { headers: this.getAuthHeaders() });
+  }
+
+  approveInterviewer(id: number, data: { status: string }): Observable<any> {
+    return this.http.put(`${this.url}/api/interviewer/${id}`, data, { headers: this.getAuthHeaders() });
+  }
+
+  getProfile(id:any,type:any){
+    if(type === 'candidate'){
+      return this.http.get(`${this.url}/api/candidate/${id}`, { headers: this.getAuthHeaders() })
+    } else if(type === 'admin' || type === 'hr'){
+      return this.http.get(`${this.url}/api/hr/${id}`, { headers: this.getAuthHeaders() })
+    } else {
+      return this.http.get(`${this.url}/api/interviewer/${id}`, { headers: this.getAuthHeaders() })
+    }
   }
 }

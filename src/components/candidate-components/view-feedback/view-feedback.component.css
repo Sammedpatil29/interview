@@ -307,7 +307,7 @@
   background: #f8f9fb;
   padding: 20px;
   border-radius: 8px;
-  min-height: 160px;
+  min-height: 0px;
 }
 
 .feedback-card h3 {

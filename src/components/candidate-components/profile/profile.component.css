@@ -10,6 +10,16 @@
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
+.profile-avatar-initials {
+    width: 120px;
+    height: 120px;
+    border: 4px solid white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    background-color: #866ab8; /* A color from your gradient */
+    font-size: 4rem;
+    font-weight: bold;
+}
+
 .card-header {
     background-color: #f8f9fa;
     font-size: 1rem;

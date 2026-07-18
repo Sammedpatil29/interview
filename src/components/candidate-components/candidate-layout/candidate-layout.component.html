@@ -10,7 +10,7 @@
               <a class="list-group-item list-group-item-action list-group-item-light p-3 sidebar-link" routerLink="/candidate/schedule" routerLinkActive="active">Schedule Interviews</a>
       }
       <a class="list-group-item list-group-item-action list-group-item-light p-3 sidebar-link" routerLink="/candidate/interviews" routerLinkActive="active">My Interviews</a>
-      @if(role.role === 'interviewer' || role.role === 'candidate'){
+      @if(role.role === 'interviewer'){
               <a class="list-group-item list-group-item-action list-group-item-light p-3 sidebar-link" routerLink="/candidate/transactions" routerLinkActive="active">Transaction</a>
       }
       @if(role.role === 'hr' || role.role === 'admin'){
@@ -52,7 +52,7 @@
 
         <div class="ms-auto d-flex align-items-center gap-1">
             <span class="bg-success text-center text-white" style="height: 40px; width: 40px; border-radius: 50%; font-size: 28px">{{value}}</span>
-          <span class="user-name">{{role.name}} - {{role.role}}</span>
+          <span class="user-name">{{role.name}} - {{role.role | titlecase}}</span>
         </div>
       </div>
     </nav>

@@ -44,6 +44,7 @@ if(this.userType == 'candidate'){
     password: this.password
   }
   this.loginService.candidateLogin(params).subscribe((res:any)=>{
+    sessionStorage.setItem('token', res.token)
     this.authService.login(res.token);
      this.dialogRef.close();
     this.router.navigate(['/candidate'])
@@ -54,6 +55,7 @@ if(this.userType == 'candidate'){
     password: this.password
   }
   this.loginService.hrLogin(params).subscribe((res:any)=>{
+    sessionStorage.setItem('token', res.token)
     this.authService.login(res.token);
     this.dialogRef.close();
     this.router.navigate(['/candidate'])
@@ -64,6 +66,7 @@ if(this.userType == 'candidate'){
     password: this.password
   }
   this.loginService.interviewerLogin(params).subscribe((res:any)=>{
+    sessionStorage.setItem('token', res.token)
     this.authService.login(res.token);
     this.dialogRef.close();
     this.router.navigate(['/candidate'])

@@ -1,51 +1,108 @@
 <div class="container-fluid p-4">
   <!-- Profile Header -->
   <div class="card shadow-sm border-0 profile-header rounded-3 mb-4">
-    <div class="card-body p-4 d-flex flex-column flex-md-row align-items-center gap-4">
-      <img [src]="user.avatar" class="rounded-circle profile-avatar" alt="Profile Picture">
-      <div>
-        <h2 class="mb-0 fw-bold">{{user.name}}</h2>
-        <p class="mb-0 text-white-50">{{user.email}}</p>
+    @if(user){
+      <div class="card-body p-4 d-flex flex-column flex-md-row align-items-center gap-4">
+        @if(user.profileUrl){
+          <img [src]="user.profileUrl" class="rounded-circle profile-avatar" alt="Profile Picture">
+        } @else {
+          <div class="rounded-circle profile-avatar-initials d-flex align-items-center justify-content-center">
+            <span>{{ user.name.charAt(0) | uppercase }}</span>
+          </div>
+        }
+        <div>
+          <h2 class="mb-0 fw-bold">{{user.name | titlecase}}</h2>
+          <p class="mb-0 text-white-50">{{user.email}}</p>
+        </div>
+        <div class="ms-md-auto">
+          <button class="btn btn-light">Edit Profile</button>
+        </div>
       </div>
-      <div class="ms-md-auto">
-        <button class="btn btn-light">Edit Profile</button>
-      </div>
-    </div>
+    }
   </div>
 
+  @if(user){
+
   <div class="row g-4">
-    <div class="col-lg-6">
-      <!-- Personal Information -->
-      <div class="card shadow-sm border-0 h-100">
-        <div class="card-header">Personal Information</div>
-        <div class="card-body">
-          <p><strong>Email:</strong> {{user.email}}</p>
-          <p class="mb-0"><strong>Mobile Number:</strong> {{user.mobileNumber}}</p>
+    <!-- ================= CANDIDATE VIEW ================= -->
+    @if(user.role === 'candidate'){
+      <div class="col-lg-6">
+        <div class="card shadow-sm border-0 h-100">
+          <div class="card-header fw-medium">Personal Information</div>
+          <div class="card-body">
+            <p><strong>Email:</strong> {{user.email}}</p>
+            <p class="mb-0"><strong>Mobile Number:</strong> {{user.contact}}</p>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-lg-6">
-      <!-- Professional Information -->
-      <div class="card shadow-sm border-0 h-100">
-        <div class="card-header">Professional Information</div>
-        <div class="card-body">
-          <p><strong>Experience Level:</strong> <span class="text-capitalize">{{user.experienceLevel}}</span></p>
-          <div class="mb-3">
-            <strong class="d-block mb-2">Skills:</strong>
-            <div class="d-flex flex-wrap gap-2">
-              @for(skill of user.skills; track skill){
-                <span class="badge bg-primary-subtle text-primary-emphasis fw-normal">{{skill}}</span>
-              }
+      <div class="col-lg-6">
+        <div class="card shadow-sm border-0 h-100">
+          <div class="card-header fw-medium">Professional Information</div>
+          <div class="card-body">
+            <p><strong>Experience Level:</strong> <span class="text-capitalize">{{user.type}} ({{user.yearsOfExperience}} years)</span></p>
+            <div class="mb-3">
+              <strong class="d-block mb-2">Skills:</strong>
+              <div class="d-flex flex-wrap gap-2">
+                @for(skill of user.skills; track skill){
+                  <span class="badge bg-primary-subtle text-primary-emphasis fw-normal">{{skill}}</span>
+                }
+              </div>
+            </div>
+            @if(user.resume){
+              <p class="mb-0">
+                <strong>Resume:</strong>
+                <a href="{{user.resume}}" target="_blank" class="ms-2">{{user.resume.split('/').pop()}} <mat-icon style="font-size: 16px; vertical-align: text-bottom;">download</mat-icon></a>
+              </p>
+            }
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- ================= INTERVIEWER VIEW ================= -->
+    @if(user.role === 'interviewer'){
+      <div class="col-lg-6">
+        <div class="card shadow-sm border-0 h-100">
+          <div class="card-header fw-medium">Contact & Payment</div>
+          <div class="card-body">
+            <p><strong>Email:</strong> {{user.email}}</p>
+            <p><strong>Mobile Number:</strong> {{user.contact}}</p>
+            <p class="mb-0"><strong>UPI ID:</strong> {{user.upi || 'Not Provided'}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card shadow-sm border-0 h-100">
+          <div class="card-header fw-medium">Professional Information</div>
+          <div class="card-body">
+            <p><strong>Designation:</strong> {{user.designation}}</p>
+            <p><strong>Experience:</strong> {{user.experience}} years</p>
+            <p><strong>LinkedIn:</strong> <a [href]="user.linkedinUrl" target="_blank">{{user.linkedinUrl || 'Not Provided'}}</a></p>
+            <div class="mb-0">
+              <strong class="d-block mb-2">Skills:</strong>
+              <div class="d-flex flex-wrap gap-2">
+                @for(skill of user.skills; track skill){
+                  <span class="badge bg-primary-subtle text-primary-emphasis fw-normal">{{skill}}</span>
+                }
+              </div>
             </div>
           </div>
-          @if(user.resume.name){
-            <p class="mb-0">
-              <strong>Resume:</strong>
-              <a href="#" class="ms-2">{{user.resume.name}} <mat-icon style="font-size: 16px; vertical-align: text-bottom;">download</mat-icon></a>
-            </p>
-          }
         </div>
       </div>
-    </div>
+    }
+
+    <!-- ================= ADMIN/HR VIEW ================= -->
+    @if(user.role === 'admin' || user.role === 'hr'){
+      <div class="col-12">
+        <div class="card shadow-sm border-0 h-100">
+          <div class="card-header fw-medium">Personal Information</div>
+          <div class="card-body">
+            <p><strong>Email:</strong> {{user.email}}</p>
+            <p class="mb-0"><strong>Mobile Number:</strong> {{user.contact}}</p>
+          </div>
+        </div>
+      </div>
+    }
   </div>
+  }
 </div>

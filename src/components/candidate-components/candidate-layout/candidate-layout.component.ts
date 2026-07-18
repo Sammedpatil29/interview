@@ -4,11 +4,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../../services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertDialogComponent } from '../../public-components/alert-dialog/alert-dialog.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-candidate-layout',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, MatIconModule],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, MatIconModule, CommonModule],
   templateUrl: './candidate-layout.component.html',
   styleUrl: './candidate-layout.component.css'
 })
@@ -24,6 +25,7 @@ export class CandidateLayoutComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.authService.role$.subscribe((res:any)=>{
+      console.log(res)
       this.role = res
       this.value = this.role?.name[0]
     })

@@ -39,6 +39,7 @@ export class AuthService {
     try {
       const decodedToken: DecodedToken = jwtDecode(token);
       const res = {
+        id: decodedToken['id'],
         role: decodedToken.role,
         name: decodedToken['name']
       }
