@@ -1,12 +1,14 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   MAT_DIALOG_DATA,
+  MatDialog,
   MatDialogRef,
 } from '@angular/material/dialog';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { InterviewService } from '../../../services/interview.service';
+import { AlertDialogComponent } from '../../public-components/alert-dialog/alert-dialog.component';
 
 @Component({
   selector: 'app-feedback-form',
@@ -20,6 +22,8 @@ export class FeedbackFormComponent implements OnInit {
   isSaving: boolean = false
   isSubmitting: boolean = false
   private intervalId: any;
+  readonly dialog = inject(MatDialog);
+
 
   constructor(
     public dialogRef: MatDialogRef<FeedbackFormComponent>,
@@ -98,8 +102,23 @@ export class FeedbackFormComponent implements OnInit {
     this.interviewService.updateFeedback(this.data.id, params).subscribe((res:any)=>{
       this.isSubmitting = false
       console.log(res)
+      this.dialogRef.close(true);
+      this.dialog.open(AlertDialogComponent, {
+        data: {
+          title: 'success',
+          body: 'Feedback Added Successfully!',
+          type: 'success'
+        }
+      })
     },error => {
       this.isSaving = false
+      this.dialog.open(AlertDialogComponent,{
+        data: {
+          title: 'error',
+          body: 'error occured',
+          type: 'error'
+        }
+      })
     })
   }
 

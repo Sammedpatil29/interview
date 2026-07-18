@@ -15,7 +15,7 @@
         @if(role.role === 'interviewer' || role.role === 'admin'){
         <div class="text-success fw-bold fs-4 d-flex flex-column align-items-sm-end">
                 <span>+{{interviewDetails.interviewerShare.share}}</span>
-                @if(interviewDetails.timeline[interviewDetails.timeline.length - 1].status === 'Completed'){
+                @if(interviewDetails.timeline[interviewDetails.timeline.length - 1].status === 'Completed' || interviewDetails.timeline[interviewDetails.timeline.length - 1].status === 'Waiting For Feedback' || interviewDetails.timeline[interviewDetails.timeline.length - 1].status === 'Feedback Added'){
                 <div class="d-flex justify-content-end">
   @if(!interviewDetails.interviewerShare.approved){
     <small class="text-warning" style="font-size: 10px">Transaction is under approval</small>
@@ -117,17 +117,17 @@
               <span>Interviewer Feedback</span>
               <div class="d-flex gap-2">
                 @if(interviewDetails.feedback && getInterviewState() === 'feedback_received'){
-                  <button class="btn btn-primary" style="padding: 2px 5px !important; min-width: 0px !important" (click)="openViewFeedback()">Detailed View</button>
+                  <button class="btn btn-primary smallbtn"  (click)="openViewFeedback()">Detailed View</button>
                 }
                 @if(role.role === 'admin' || role.role === 'interviewer'){
-                <button class="btn btn-primary" style="padding: 2px 5px !important; min-width: 0px !important" (click)="openFeedback()" [disabled]="getInterviewState() === 'completed' || getInterviewState() === 'feedback_received'">Add Feedback</button>
+                <button class="btn btn-primary smallbtn" (click)="openFeedback()" [disabled]="getInterviewState() === 'completed' || getInterviewState() === 'feedback_received'">Add Feedback</button>
             }
                 
               </div>
             </div>
-            @if(interviewDetails.feedback && getInterviewState() === 'feedback_received'){
+            @if(interviewDetails.feedback && getInterviewState() === 'feedback_received' || getInterviewState() === 'completed'){
               <div class="card-body">
-              <p class="text-muted">{{interviewDetails.feedback}}</p>
+              <p class="text-muted">{{interviewDetails.feedback.feedback}}</p>
             </div>
             } @else {
               <div class="card-body text-center text-secondary p-4">
@@ -173,10 +173,10 @@
             <span>Assigned To</span>
             <div class="d-flex gap-2">
               @if(role.role === 'admin' || role.role === 'hr'){
-                <button class="btn btn-sm btn-primary" style="padding: 2px 5px !important; min-width: 0px !important" [disabled]="getInterviewState() !== 'none'" (click)='openHrWindow()'>HR</button>
+                <button class="btn btn-sm btn-primary smallbtn" [disabled]="getInterviewState() !== 'none'" (click)='openHrWindow()'>HR</button>
             }
             @if(role.role === 'admin' || role.role === 'hr'){
-                <button class="btn btn-sm btn-primary" style="padding: 2px 5px !important; min-width: 0px !important" [disabled]="getInterviewState() !== 'none'" (click)='openReschedule()'>Inter.</button>
+                <button class="btn btn-sm btn-primary smallbtn" [disabled]="getInterviewState() !== 'none'" (click)='openReschedule()'>Inter.</button>
             }
             </div>
             

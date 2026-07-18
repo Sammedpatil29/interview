@@ -53,3 +53,8 @@ html, body { height: 100%; }
   margin-bottom: 15px
 }
 
+.smallbtn {
+      padding: 2px 5px !important;
+    min-width: 0px !important;
+    border-radius: 6px !important;
+}
