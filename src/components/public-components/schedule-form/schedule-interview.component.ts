@@ -48,7 +48,7 @@ export class ScheduleInterviewComponent implements OnInit {
 
   minDate: any;
   maxDate: any;
-
+  amount: number = 0;
   isHomePage: boolean = false;
   bookingSuccess: boolean = false;
 
@@ -79,6 +79,16 @@ export class ScheduleInterviewComponent implements OnInit {
       candidateEmail: ['', [Validators.required, Validators.email]],
       mobileNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       experienceLevel: ['', Validators.required],
+    });
+
+    this.personalDetailsForm.get('experienceLevel')?.valueChanges.subscribe(value => {
+      if (value === 'fresher') {
+        this.amount = 1200;
+      } else if (value === 'intermediate') {
+        this.amount = 1800;
+      } else if (value === 'experienced') {
+        this.amount = 2400;
+      }
     });
 
     this.skillsForm = this._formBuilder.group({
@@ -116,7 +126,8 @@ export class ScheduleInterviewComponent implements OnInit {
     const payload = {
       ...personalDetails,
       ...skillsDetails,
-      slots: slotsDetails
+      slots: slotsDetails,
+      amount: this.amount
       // The other properties like schedule, hr, interviewer, payment, etc.
       // will likely be added by your backend service upon processing.
     };

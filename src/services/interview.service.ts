@@ -103,4 +103,8 @@ token = ''
       return this.http.get(`${this.url}/api/interviewer/${id}`, { headers: this.getAuthHeaders() })
     }
   }
+
+  getDashboard(){
+    return this.http.get(`${this.url}/api/dashboard`, { headers: this.getAuthHeaders() }) 
+  }
 }
