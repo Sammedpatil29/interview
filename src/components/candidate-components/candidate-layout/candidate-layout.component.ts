@@ -1,21 +1,34 @@
-import { Component, OnInit, AfterViewInit, ElementRef } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, OnInit, AfterViewInit, ElementRef, inject } from '@angular/core';
+import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { AuthService } from '../../../services/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AlertDialogComponent } from '../../public-components/alert-dialog/alert-dialog.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-candidate-layout',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, MatIconModule],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, MatIconModule, CommonModule],
   templateUrl: './candidate-layout.component.html',
   styleUrl: './candidate-layout.component.css'
 })
 export class CandidateLayoutComponent implements OnInit, AfterViewInit {
 
   private readonly mobileBreakpoint = 992;
+  role:any;
+  value:any;
 
-  constructor(private elementRef: ElementRef) { }
+  readonly dialog = inject(MatDialog);
+
+  constructor(private elementRef: ElementRef, private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
+    this.authService.role$.subscribe((res:any)=>{
+      console.log(res)
+      this.role = res
+      this.value = this.role?.name[0]
+    })
   }
 
   ngAfterViewInit(): void {
@@ -60,4 +73,18 @@ export class CandidateLayoutComponent implements OnInit, AfterViewInit {
     });
   }
 
+  logout(){
+    this.dialog.open(AlertDialogComponent, {
+      data: {
+        title: 'success',
+        body: 'Sure you want to logout?',
+        type: 'warning'
+      }
+    }).afterClosed().subscribe((res:any)=>{
+      if(res){
+        sessionStorage.removeItem('token')
+    this.router.navigate(['/home'])
+      }
+    })
+  }
 }

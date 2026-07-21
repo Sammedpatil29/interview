@@ -13,9 +13,15 @@
               </div>
 
               <!-- Right side with the form -->
-              <div class="col-lg-8 p-4 p-md-5">
-                
-
+              <div class="col-lg-8">
+                @if(bookingSuccess) {
+                  <div class="text-center p-5 d-flex flex-column justify-content-center align-items-center h-100">
+                    <mat-icon class="text-success" style="font-size: 80px; width: 80px; height: 80px;">check_circle</mat-icon>
+                    <h3 class="mt-4 mb-2">Interview Booked!</h3>
+                    <p class="text-muted">Your request has been submitted. You will be redirected to the payment page shortly. A confirmation will be sent to your email once the payment is complete.</p>
+                    <p class="text-muted fw-bold">If this is your first booking, your password will be sent to your email address.</p>
+                  </div>
+                } @else {
                 <mat-stepper orientation="vertical" [linear]="true" #stepper>
                   <!-- Step 1: Personal Details -->
                   <mat-step [stepControl]="personalDetailsForm">
@@ -199,22 +205,29 @@
                   <mat-step>
                     <ng-template matStepLabel>Confirm & Book</ng-template>
                     <div class="text-center p-4">
-                      <h4 class="fw-normal">Total Price: <span class="fw-bold">₹49.99</span></h4>
+                      <h4 class="fw-normal">Total Price: <span class="fw-bold">₹{{amount}}</span></h4>
                       <p class="text-muted">Please review your details before booking. You will be redirected to the payment gateway after confirmation.</p>
                     </div>
                     <div class="d-flex w-100 gap-2 mt-4">
                       <button  matStepperPrevious class="btn btn-outline-secondary w-30">Back</button>
-                      <button class="btn btn-primary w-100" (click)="scheduleInterview()" [style.background]="'linear-gradient(45deg, #0d6efd, #6f42c1)'" [style.border]="'none'">
+                      <button class="btn btn-primary w-100" (click)="scheduleInterview()" [disabled]="isLoading" [style.background]="'linear-gradient(45deg, #0d6efd, #6f42c1)'" [style.border]="'none'">
                         Book & Proceed to Payment
                       </button>
                     </div>
                   </mat-step>
                 </mat-stepper>
+              }
               </div>
+
+              
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  @if(isLoading) {
+    <app-loader></app-loader>
+  }
 </div>

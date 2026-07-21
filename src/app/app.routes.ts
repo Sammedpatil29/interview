@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuardGuard } from '../guards/auth-guard.guard';
 
 export const routes: Routes = [
     {
@@ -15,8 +16,13 @@ export const routes: Routes = [
         loadComponent: () => import('../components/public-components/docs/docs.component').then(m => m.DocsComponent),
     },
     {
+        path: 'onboarding',
+        loadComponent: () => import('../components/public-components/interviewer-onboard/interviewer-onboard.component').then(m => m.InterviewerOnboardComponent),
+    },
+    {
         path: 'candidate',
         loadComponent: () => import('../components/candidate-components/candidate-layout/candidate-layout.component').then(m => m.CandidateLayoutComponent),
+        canActivate: [authGuardGuard],
         children: [
             {
         path: '',
@@ -38,6 +44,18 @@ export const routes: Routes = [
             {
         path: 'transactions',
         loadComponent: () => import('../components/public-components/transactions/transactions.component').then(m => m).then(m => m.TransactionsComponent),
+    },
+            {
+        path: 'transactionRequests',
+        loadComponent: () => import('../components/candidate-components/transaction-requests/transaction-requests.component').then(m => m).then(m => m.TransactionRequestsComponent),
+    },
+            {
+        path: 'interviewerRequests',
+        loadComponent: () => import('../components/candidate-components/interviewer-requests/interviewer-requests.component').then(m => m).then(m => m.InterviewerRequestsComponent),
+    },
+            {
+        path: 'payout',
+        loadComponent: () => import('../components/candidate-components/payout-requests/payout-requests.component').then(m => m).then(m => m.PayoutRequestsComponent),
     },
             {
         path: 'profile',

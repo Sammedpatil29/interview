@@ -1,0 +1,113 @@
+<div class="container py-4">
+  <div class="d-flex align-items-baseline justify-content-between">
+    <h3 class="mb-4">
+    @if (interviewDetails?.meetingUrl) {
+      <span>Reschedule Interview</span>
+    } @else {
+      <span>Schedule Interview</span>
+    }
+  </h3>
+  <small class="me-2"><a href="https://meet.google.com/landing" target="_blank"><i>Get Google Meet Link here</i></a></small>
+  </div>
+
+  <div class="row g-4">
+    <!-- Left side: Interviewer List -->
+    <div class="col-md-5">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-header bg-transparent fw-bold">Select an Interviewer</div>
+        @if(!isLoading){
+            <div class="card-body interviewer-list">
+          @for (interviewer of interviewers; track interviewer.id) {
+            <div class="interviewer-card" 
+                 [class.interviewer-selected]="isInterviewerSelected(interviewer)"
+                 (click)="selectInterviewer(interviewer)">
+              <div class="fw-bold">{{ interviewer.name }}</div>
+              <div class="small text-muted">{{ interviewer.experience }} years &bull; {{interviewer.designation}}</div>
+            </div>
+          } @empty {
+            <p class="text-muted text-center m-0">No interviewers found.</p>
+          }
+        </div>
+        } @else {
+            <div class="d-flex align-items-center justify-content-center h-75">
+                <small class="text-secondary">Loading Interviever List...</small>
+            </div>
+        }
+      </div>
+    </div>
+
+    <!-- Right side: Scheduling -->
+    <div class="col-md-7">
+      <!-- Section for preferred slots -->
+      @if (interviewDetails?.slots) {
+        <div class="card shadow-sm border-0 mb-4">
+          <div class="card-header bg-transparent fw-bold">
+            Select one of the candidate's preferred slots
+          </div>
+          <div class="card-body">
+            <div class="d-flex flex-wrap gap-3">
+              @for (key of objectKeys(interviewDetails.slots); track key) {
+                @if (interviewDetails.slots[key].date && interviewDetails.slots[key].time) {
+                  <div class="text-center bg-light border rounded p-2 slot-card" 
+                      [class.slot-selected]="isSlotSelected(interviewDetails.slots[key])"
+                      (click)="selectSlot(interviewDetails.slots[key])">
+                    <div class="fs-5 fw-bold lh-1">{{ interviewDetails.slots[key].date | date:'d' }}</div>
+                    <div class="small text-muted text-uppercase fw-semibold">{{ interviewDetails.slots[key].date | date:'MMM' }}</div>
+                    <div class="small bg-white border rounded px-1 mt-1">{{ formatTime(interviewDetails.slots[key].time) }}</div>
+                  </div>
+                }
+              }
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- Section for custom date/time and meeting URL -->
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-transparent fw-bold">
+          Or set a custom schedule
+        </div>
+        <div class="card-body">
+          <form [formGroup]="rescheduleForm">
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Custom Date</mat-label>
+                  <input matInput [min]="minDate" [matDatepicker]="picker" formControlName="date" (click)="clearSelectedSlot()">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Custom Time</mat-label>
+                  <mat-select formControlName="time" (click)="clearSelectedSlot()">
+                    <mat-option value="09:00">09:00 AM</mat-option>
+                    <mat-option value="10:00">10:00 AM</mat-option>
+                    <mat-option value="11:00">11:00 AM</mat-option>
+                    <mat-option value="14:00">02:00 PM</mat-option>
+                    <mat-option value="15:00">03:00 PM</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <mat-form-field appearance="outline" class="w-100 mt-3">
+              <mat-label>Meeting URL</mat-label>
+              <input matInput formControlName="meetingUrl" placeholder="https://meet.google.com/xxx-xxxx-xxx">
+            </mat-form-field>
+            <div class="d-flex justify-content-end gap-2 mt-3">
+              <button class="btn btn-outline-secondary" (click)="close()">Cancel</button>
+              <button class="btn btn-primary" (click)="onReschedule()" [disabled]="!isFormValid()">
+                @if (interviewDetails?.meetingUrl) {
+                  <span>Reschedule Interview</span>
+                } @else {
+                  <span>Schedule Interview</span>
+                }
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

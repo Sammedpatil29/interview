@@ -1,0 +1,141 @@
+<!-- ================= TOOLBAR (hidden in print/PDF) ================= -->
+<div class="dialog-toolbar">
+  <button class="btn-action btn-download" (click)="downloadPDF()" [disabled]="isGenerating">
+    <mat-icon>{{ isGenerating ? 'hourglass_top' : 'download' }}</mat-icon>
+    {{ isGenerating ? 'Generating...' : 'Download PDF' }}
+  </button>
+<svg (click)="close()" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#B7B7B7"><path d="m336-280 144-144 144 144 56-56-144-144 144-144-56-56-144 144-144-144-56 56 144 144-144 144 56 56ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z"/></svg>
+  <!-- <button class="btn-action btn-close" (click)="close()">
+    <mat-icon>close</mat-icon>
+    Close
+  </button> -->
+</div>
+
+<!-- ================= REPORT (this is what gets captured to PDF) ================= -->
+<div class="a4-report" id="pdfContent">
+
+  <!-- ================= HEADER ================= -->
+  <div class="letter-head">
+    <div class="top-pattern"></div>
+
+    <div class="header-content">
+      <div class="logo-section">
+        <img src="assets/logo.png" alt="Company Logo">
+      </div>
+
+      <div class="company-section text-end">
+        <p>Professional Mock Interview Assessment Report</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- REPORT TITLE -->
+  <div class="report-title">
+    <h1>Interview Feedback Report</h1>
+    <span>Confidential Document</span>
+  </div>
+
+  <!-- ================= INFORMATION ================= -->
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="icon"><mat-icon>person</mat-icon></div>
+      <div>
+        <label>Candidate</label>
+        <h4>{{ candidateName | titlecase}}</h4>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="icon"><mat-icon>badge</mat-icon></div>
+      <div>
+        <label>Interviewer</label>
+        <h4>{{ interviewerName }}</h4>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="icon"><mat-icon>event</mat-icon></div>
+      <div>
+        <label>Interview Schedule</label>
+        <h4>{{ interviewDate | date:'medium' }}</h4>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= SCORE ================= -->
+  <div class="score-section">
+    <div class="score-circle" [style.background]="ratingColor">
+      {{ averageRating | number:'1.1-1' }}
+      <span>/ 10</span>
+    </div>
+
+    <div class="score-details">
+      <div class="score-heading">
+        <h2>Overall Interview Rating</h2>
+        <span class="grade-badge" [style.background]="ratingColor">
+          {{ performanceGrade }}
+        </span>
+      </div>
+
+      <div class="stars">
+        @for (star of getRatingStars(averageRating); track $index) {
+          <mat-icon color="warn">star</mat-icon>
+        }
+        @for (star of getEmptyStars(averageRating); track $index) {
+          <mat-icon>star_border</mat-icon>
+        }
+      </div>
+
+      <div class="progress mt-3">
+        <div class="progress-bar" [style.width.%]="ratingPercentage" [style.background]="ratingColor"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= TABLE ================= -->
+  <div class="section-title">Detailed Evaluation</div>
+
+  <table class="custom-table">
+    <thead>
+      <tr>
+        <th style="width:35%">Question / Topic</th>
+        <th style="width:50%">Comments</th>
+        <th style="width:15%">Rating</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of feedbackData?.detailedFeedback; track $index) {
+        <tr>
+          <td>{{ item.questionAsked }}</td>
+          <td>{{ item.comment }}</td>
+          <td class="text-center">
+            <span class="badge" [class.badge-high]="item.rating >= 7"
+                                 [class.badge-mid]="item.rating >= 4 && item.rating < 7"
+                                 [class.badge-low]="item.rating < 4">
+              {{ item.rating }} / 10
+            </span>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <!-- ================= FEEDBACK ================= -->
+  <div class="feedback-grid">
+    <div class="feedback-card">
+      <h3><mat-icon>chat_bubble_outline</mat-icon> Overall Feedback</h3>
+      <p>{{ feedbackData?.feedback }}</p>
+    </div>
+
+    <div class="feedback-card">
+      <h3><mat-icon>lightbulb_outline</mat-icon> Recommendations</h3>
+      <p>{{ feedbackData?.recommendations }}</p>
+    </div>
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <div class="footer">
+    <div>Generated on {{ currentDate | date:'longDate' }}</div>
+    <div>demoInterue &bull; Confidential</div>
+  </div>
+</div>

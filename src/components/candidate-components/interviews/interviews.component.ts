@@ -4,50 +4,34 @@ import { MatIconModule } from '@angular/material/icon';
 import { NoDataComponent } from '../../public-components/no-data/no-data.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InterviewDetailsComponent } from "../interview-details/interview-details.component";
+import { AuthService } from '../../../services/auth.service';
+import { HttpHeaders } from '@angular/common/http';
+import { InterviewService } from '../../../services/interview.service';
+import { LoaderComponent } from "../../public-components/loader/loader.component";
 
 @Component({
   selector: 'app-interviews',
   standalone: true,
-  imports: [CommonModule, MatIconModule, NoDataComponent, InterviewDetailsComponent],
+  imports: [CommonModule, MatIconModule, NoDataComponent, InterviewDetailsComponent, LoaderComponent],
   templateUrl: './interviews.component.html',
   styleUrl: './interviews.component.css'
 })
 export class InterviewsComponent implements OnInit{
   id:any;
-  interviews = [
-    {
-      id: 1,
-      candidateName: "rgrwg",
-      candidateEmail: "df@g.y",
-      mobileNumber: "4545454545",
-      experienceLevel: "fresher",
-      type: "backend",
-      skills: ["Angular", "Node.js"],
-      status: 'Pending',
-      slots: [
-        { date: "2026-07-12T18:30:00.000Z", time: "09:00 AM" },
-        { date: "2026-07-13T18:30:00.000Z", time: "11:00 AM" },
-        { date: null, time: null }
-      ]
-    },
-    {
-      id: 2,
-      experienceLevel: "experienced",
-      type: "frontend",
-      skills: ["React", "TypeScript", "TailwindCSS"],
-      status: 'Confirmed',
-      slots: [
-        { date: "2026-07-15T18:30:00.000Z", time: "02:00 PM" }
-      ]
-    }
-  ];
+  role:any;
+  isLoading: boolean = true;
+  interviews:any = [];
 
-  constructor(private route: ActivatedRoute, private router: Router){}
+  constructor(private route: ActivatedRoute, private router: Router, private authService: AuthService, private interviewService: InterviewService){}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.id = params['id'];
     });
+    this.authService.role$.subscribe((res:any)=>{
+      this.role = res
+    })
+    this.getInterviews()
   }
 
   viewDetails(id:any){
@@ -58,4 +42,52 @@ export class InterviewsComponent implements OnInit{
       queryParamsHandling: 'merge' // 'merge' keeps existing query params, 'preserve' keeps old ones completely, default replaces them
     });
   }
+
+  getInterviews(){
+    
+this.isLoading = true;
+this.interviewService.getInterviews().subscribe((res:any)=>{
+  this.interviews = res
+  this.isLoading = false;
+}, error => {
+  this.isLoading = false;
+})
+  }
+
+   objectKeys(obj: object): string[] {
+    if (!obj) {
+      return [];
+    }
+    return Object.keys(obj);
+  }
+
+  formatTime(time: string): string {
+    if (!time) return '';
+    const [hour, minute] = time.split(':');
+    const hourNum = parseInt(hour, 10);
+    const ampm = hourNum >= 12 ? 'PM' : 'AM';
+    const formattedHour = hourNum % 12 === 0 ? 12 : hourNum % 12;
+    return `${String(formattedHour).padStart(2, '0')}:${minute} ${ampm}`;
+  }
+
+  isJoinEnabled(interviewDetails:any): boolean {
+  if (!interviewDetails?.schedule) {
+    return false;
+  }
+
+  const { date, time } = interviewDetails.schedule;
+
+  // Combine date and time into a single Date object for comparison
+  const scheduledDateTime = new Date(date);
+  const [hours, minutes] = time.split(':').map(Number);
+  scheduledDateTime.setHours(hours, minutes, 0, 0);
+
+  const now = new Date();
+
+  // The window for joining is from 15 minutes before to 30 minutes after the scheduled time.
+  const startTime = new Date(scheduledDateTime.getTime() - 15 * 60 * 1000);
+  const endTime = new Date(scheduledDateTime.getTime() + 30 * 60 * 1000);
+
+  return now >= startTime && now <= endTime;
+}
 }

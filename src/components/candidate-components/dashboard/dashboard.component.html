@@ -16,7 +16,11 @@
       </div>
     }
   </div>
-  <h3 class="mb-1 pt-3">Updates</h3>
+  <!-- <h3 class="mb-1 pt-3">Updates</h3>
   <p class="text-muted">Catch any Important updates here</p>
   <app-no-data></app-no-data>
-</div>
+</div> -->
+
+@if(isLoading){
+  <app-loader></app-loader>
+}

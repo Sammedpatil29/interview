@@ -6,6 +6,8 @@ import { MatFormFieldModule } from '@angular/material/form-field'; // 1. Import 
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
+import { LoginService } from '../../services/login.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +23,7 @@ mobileNumber: any;
 
   userType = ''
 
-  constructor(private router: Router){}
+  constructor(private router: Router, private loginService: LoginService, private authService: AuthService){}
 
   ngOnInit(): void {
     
@@ -37,9 +39,40 @@ mobileNumber: any;
   
   logIn() {
 if(this.userType == 'candidate'){
-  this.dialogRef.close();
-this.router.navigate(['/candidate-login'])
+  let params = {
+    contact: this.mobileNumber,
+    password: this.password
+  }
+  this.loginService.candidateLogin(params).subscribe((res:any)=>{
+    sessionStorage.setItem('token', res.token)
+    this.authService.login(res.token);
+     this.dialogRef.close();
+    this.router.navigate(['/candidate'])
+  })
+} else if(this.userType == 'hr'){
+  let params = {
+    contact: this.mobileNumber,
+    password: this.password
+  }
+  this.loginService.hrLogin(params).subscribe((res:any)=>{
+    sessionStorage.setItem('token', res.token)
+    this.authService.login(res.token);
+    this.dialogRef.close();
+    this.router.navigate(['/candidate'])
+  })
+} else {
+  let params = {
+    contact: this.mobileNumber,
+    password: this.password
+  }
+  this.loginService.interviewerLogin(params).subscribe((res:any)=>{
+    sessionStorage.setItem('token', res.token)
+    this.authService.login(res.token);
+    this.dialogRef.close();
+    this.router.navigate(['/candidate'])
+  })
+  
 }
-}
+  }
 
 }

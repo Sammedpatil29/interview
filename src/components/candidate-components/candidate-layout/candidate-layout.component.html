@@ -6,10 +6,22 @@
     </div>
     <div class="list-group list-group-flush">
       <a class="list-group-item list-group-item-action list-group-item-light p-3 sidebar-link" routerLink="/candidate/dashboard" routerLinkActive="active">Dashboard</a>
-      <a class="list-group-item list-group-item-action list-group-item-light p-3 sidebar-link" routerLink="/candidate/schedule" routerLinkActive="active">Schedule Interviews</a>
+      @if(role.role !== 'interviewer'){
+              <a class="list-group-item list-group-item-action list-group-item-light p-3 sidebar-link" routerLink="/candidate/schedule" routerLinkActive="active">Schedule Interviews</a>
+      }
       <a class="list-group-item list-group-item-action list-group-item-light p-3 sidebar-link" routerLink="/candidate/interviews" routerLinkActive="active">My Interviews</a>
-      <a class="list-group-item list-group-item-action list-group-item-light p-3 sidebar-link" routerLink="/candidate/transactions" routerLinkActive="active">Transactions</a>
+      @if(role.role === 'interviewer'){
+              <a class="list-group-item list-group-item-action list-group-item-light p-3 sidebar-link" routerLink="/candidate/transactions" routerLinkActive="active">Transaction</a>
+      }
+      @if(role.role === 'hr' || role.role === 'admin'){
+              <a class="list-group-item list-group-item-action list-group-item-light p-3 sidebar-link" routerLink="/candidate/interviewerRequests" routerLinkActive="active">Interviewer Requests</a>
+      }
+      @if(role.role === 'admin'){
+              <a class="list-group-item list-group-item-action list-group-item-light p-3 sidebar-link" routerLink="/candidate/transactionRequests" routerLinkActive="active">Transaction Requests</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3 sidebar-link" routerLink="/candidate/payout" routerLinkActive="active">Payout Requests</a>
+      }
       <a class="list-group-item list-group-item-action list-group-item-light p-3 sidebar-link" routerLink="/candidate/profile" routerLinkActive="active">Profile</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3 sidebar-link" (click)=logout()  routerLinkActive="active">Logout</a>
       <!-- <a class="list-group-item list-group-item-action list-group-item-light p-3 sidebar-link" routerLink="/candidate/settings" routerLinkActive="active">Settings</a> -->
     </div>
   </div>
@@ -39,8 +51,8 @@
         </div>
 
         <div class="ms-auto d-flex align-items-center gap-1">
-            <span class="bg-success text-center text-white" style="height: 40px; width: 40px; border-radius: 50%; font-size: 28px">C</span>
-          <span class="user-name">Candidate Name</span>
+            <span class="bg-success text-center text-white" style="height: 40px; width: 40px; border-radius: 50%; font-size: 28px">{{value}}</span>
+          <span class="user-name">{{role.name}} - {{role.role | titlecase}}</span>
         </div>
       </div>
     </nav>

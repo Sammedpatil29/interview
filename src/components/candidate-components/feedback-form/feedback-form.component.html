@@ -1,0 +1,122 @@
+<div class="feedback-dialog-container">
+  <div class="feedback-dialog-header">
+    <h3 class="mb-0">Submit Interview Feedback</h3>
+    @if (isSaving) {
+      <div class="d-flex align-items-center gap-2 text-muted saving-indicator">
+        <div class="spinner-border spinner-border-sm" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <small>Saving...</small>
+      </div>
+    } @else {
+        <small class="text-success">
+            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#439400"><path d="m424-296 282-282-56-56-226 226-114-114-56 56 170 170Zm56 216q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z"/></svg>
+            Saved
+        </small>
+    }
+    <!-- <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button> -->
+  </div>
+
+  <div class="feedback-dialog-content">
+    <!-- Interview Details Cards -->
+    <div class="row g-3 mb-4">
+      <!-- Candidate Details -->
+      <div class="col-md-4">
+        <div class="card info-card h-100">
+          <div class="card-header">Candidate Details</div>
+          <div class="card-body">
+            <p><strong>Name:</strong> {{ data.candidateName }}</p>
+            <p><strong>Email:</strong> {{ data.candidateEmail }}</p>
+            <p class="mb-0"><strong>Mobile:</strong> {{ data.mobileNumber }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interviewer Details -->
+      <div class="col-md-4">
+        <div class="card info-card h-100">
+          <div class="card-header">Interviewer Details</div>
+          <div class="card-body">
+            <p><strong>Name:</strong> {{ data.interviewer?.name }}</p>
+            <p class="mb-0"><strong>Experience:</strong> {{ data.interviewer?.exp }} years - {{ data.interviewer?.role }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Schedule Details -->
+      <div class="col-md-4">
+        <div class="card info-card h-100">
+          <div class="card-header">Schedule Details</div>
+          <div class="card-body">
+            <p><strong>Date:</strong> {{ data.schedule?.date | date: 'fullDate' }}</p>
+            <p class="mb-0"><strong>Time:</strong> {{ data.schedule?.time }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feedback Form -->
+    <form [formGroup]="feedbackForm" (ngSubmit)="submitFeedback()">
+      <div class="row g-4">
+        <!-- Detailed Feedback -->
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              Detailed Feedback
+              <button type="button" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1 smallbtn" (click)="addDetailedFeedbackRow()">
+                <mat-icon>add</mat-icon> Add Row
+              </button>
+            </div>
+            <div class="card-body" formArrayName="detailedFeedback">
+              @for(row of detailedFeedback.controls; track $index){
+                <div class="row g-2 align-items-center mb-2" [formGroupName]="$index">
+                  <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="Question / Topic" formControlName="questionAsked">
+                  </div>
+                  <div class="col-md-5">
+                    <input type="text" class="form-control" placeholder="Comment / Answer" formControlName="comment">
+                  </div>
+                  <div class="col-md-2">
+                    <input type="number" class="form-control" placeholder="Rating (1-10)" formControlName="rating" min="1" max="10">
+                  </div>
+                  <div class="col-md-1 text-end">
+                    <button class="btn btn-primary smallbtn" (click)="removeDetailedFeedbackRow($index)" [disabled]="detailedFeedback.controls.length <= 1">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- General Feedback -->
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">Overall Feedback</div>
+            <div class="card-body">
+              <textarea class="form-control" rows="4" placeholder="Provide overall feedback on the candidate's performance..." formControlName="feedback"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">Recommendations</div>
+            <div class="card-body">
+              <textarea class="form-control" rows="3" placeholder="e.g., Hire, No Hire, Further Rounds..." formControlName="recommendations"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="feedback-dialog-actions">
+    <div class="d-flex justify-content-end gap-2">
+      <button type="button" class="btn btn-outline-secondary" (click)="close()">Cancel</button>
+      <button type="button" class="btn btn-primary" [disabled]="feedbackForm.invalid" (click)="submitFeedback()">Submit Feedback</button>
+    </div>
+  </div>
+</div>

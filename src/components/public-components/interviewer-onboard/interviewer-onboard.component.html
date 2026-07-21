@@ -1,0 +1,137 @@
+<div class="container my-4 my-lg-5">
+  <div class="row justify-content-center">
+    <div class="col-xl-8 col-lg-10">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-light border-bottom pt-3">
+          <h3 class="mb-0">Interviewer Onboarding</h3>
+          <p class="text-muted small">Join our team of expert interviewers. Please fill out the form below to get started.</p>
+        </div>
+        <div class="card-body p-4">
+
+          <form [formGroup]="onboardForm" (ngSubmit)="submitApplication()">
+            <!-- Personal Information -->
+            <h5 class="mb-3 fw-semibold">Personal Information</h5>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Full Name</mat-label>
+                  <input matInput formControlName="name" placeholder="Enter your full name">
+                  <mat-error *ngIf="f['name'].hasError('required')">Full name is required.</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Email Address</mat-label>
+                  <input matInput type="email" formControlName="email" placeholder="Enter your email">
+                  <mat-error *ngIf="f['email'].hasError('required')">Email is required.</mat-error>
+                  <mat-error *ngIf="f['email'].hasError('email')">Please enter a valid email address.</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Contact Number</mat-label>
+                  <input matInput type="tel" formControlName="contact" placeholder="Enter your 10-digit mobile number">
+                  <mat-error *ngIf="f['contact'].hasError('required')">Contact number is required.</mat-error>
+                  <mat-error *ngIf="f['contact'].hasError('pattern')">Please enter a valid 10-digit number.</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <hr class="my-4">
+
+            <!-- Professional Details -->
+            <h5 class="mb-3 fw-semibold">Professional Details</h5>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Current Designation</mat-label>
+                  <input matInput formControlName="designation" placeholder="e.g., Senior Software Engineer">
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Total Experience (in years)</mat-label>
+                  <input matInput type="number" formControlName="experience" placeholder="e.g., 8.5">
+                   <mat-error *ngIf="f['experience'].hasError('min')">Experience cannot be negative.</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-12">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Skills</mat-label>
+                  <mat-chip-grid #chipGrid aria-label="Enter skills">
+                    <mat-chip-row *ngFor="let skill of f['skills'].value" (removed)="removeSkill(skill)">
+                      {{skill}}
+                      <button matChipRemove>
+                        <mat-icon>cancel</mat-icon>
+                      </button>
+                    </mat-chip-row>
+                  </mat-chip-grid>
+                  <input placeholder="Add skills and press Enter..."
+                         [matChipInputFor]="chipGrid"
+                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                         (matChipInputTokenEnd)="addSkill($event)"/>
+                </mat-form-field>
+                <mat-hint>Add your technical skills, like 'Java', 'Angular', 'AWS', etc.</mat-hint>
+              </div>
+               <div class="col-12">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>LinkedIn Profile URL</mat-label>
+                  <input matInput formControlName="profileUrl" placeholder="https://linkedin.com/in/your-profile">
+                  <mat-error *ngIf="f['profileUrl'].hasError('pattern')">Please enter a valid URL.</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <hr class="my-4">
+
+            <!-- Payment Information -->
+            <!-- <h5 class="mb-3 fw-semibold">Payment Information</h5>
+             <div class="row g-3">
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>UPI ID</mat-label>
+                        <input matInput formControlName="upi" placeholder="your-upi-id@bank">
+                    </mat-form-field>
+                    <mat-hint>Your earnings will be transferred to this UPI ID.</mat-hint>
+                </div>
+             </div> -->
+
+            <!-- <hr class="my-4"> -->
+
+            <!-- Account Security -->
+            <div formGroupName="security">
+              <h5 class="mb-3 fw-semibold">Account Security</h5>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Password</mat-label>
+                    <input matInput type="password" formControlName="password" placeholder="Create a strong password">
+                    <mat-error *ngIf="securityControls['password'].hasError('required')">Password is required.</mat-error>
+                    <mat-error *ngIf="securityControls['password'].hasError('minlength')">Password must be at least 8 characters.</mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Confirm Password</mat-label>
+                    <input matInput type="password" formControlName="confirmPassword" placeholder="Re-enter your password">
+                    <mat-error *ngIf="securityControls['confirmPassword'].hasError('required')">Please confirm your password.</mat-error>
+                    <mat-error *ngIf="onboardForm.get('security')?.hasError('misMatch')">Passwords do not match.</mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="d-flex justify-content-end mt-4">
+              <button type="submit" class="btn btn-primary px-5" [disabled]="onboardForm.invalid">Submit Application</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+@if(isLoading) {
+    <app-loader></app-loader>
+}
